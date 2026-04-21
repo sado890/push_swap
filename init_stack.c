@@ -1,44 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   init_stack.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: muarici <muarici@student.42kocaeli.com.tr> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/04/01 15:46:40 by muarici           #+#    #+#             */
-/*   Updated: 2026/04/16 21:22:28 by muarici          ###   ########.fr       */
+/*   Created: 2026/04/16 18:10:00 by muarici           #+#    #+#             */
+/*   Updated: 2026/04/16 18:04:39 by muarici          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-/* --- Main --- */
-
-int	main(int argc, char **argv)
+int	get_to_nodes(t_node **a, char **split)
 {
-	t_node	*a;
-	char	**split;
-	int		i;
+	int	i;
+	int	val;
+	int	err;
 
-	i = 1;
-	a = NULL;
-	if (argc < 2)
-		return (0);
-	while (i < argc)
+	i = 0;
+	while (split[i])
 	{
-		split = ft_split(argv[i]);
-		if (!split || !split[0] || get_to_nodes(&a, split) == -1)
-		{
-			if (split)
-				free_split(split);
-			free_stack(&a);
-			write(2, "Error\n", 6);
-			return (1);
-		}
-		free_split(split);
+		err = 0;
+		val = ft_atoi_check(split[i], &err);
+		if (err || is_duplicate(*a, val))
+			return (-1);
+		add_back(a, new_node(val));
 		i++;
 	}
-	print_stack("A", a);
-	free_stack(&a);
 	return (0);
 }

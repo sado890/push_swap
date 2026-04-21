@@ -1,44 +1,49 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: muarici <muarici@student.42kocaeli.com.tr> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/04/01 15:46:40 by muarici           #+#    #+#             */
-/*   Updated: 2026/04/16 21:22:28 by muarici          ###   ########.fr       */
+/*   Created: 2026/04/16 18:00:00 by muarici           #+#    #+#             */
+/*   Updated: 2026/04/16 17:47:40 by muarici          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-/* --- Main --- */
-
-int	main(int argc, char **argv)
+int	ft_strlen(char *s)
 {
-	t_node	*a;
-	char	**split;
-	int		i;
+	int	i;
 
-	i = 1;
-	a = NULL;
-	if (argc < 2)
-		return (0);
-	while (i < argc)
-	{
-		split = ft_split(argv[i]);
-		if (!split || !split[0] || get_to_nodes(&a, split) == -1)
-		{
-			if (split)
-				free_split(split);
-			free_stack(&a);
-			write(2, "Error\n", 6);
-			return (1);
-		}
-		free_split(split);
+	i = 0;
+	while (s && s[i])
 		i++;
+	return (i);
+}
+
+void	free_stack(t_node **stack)
+{
+	t_node	*temp;
+
+	if (!stack || !*stack)
+		return ;
+	while (*stack)
+	{
+		temp = (*stack)->next;
+		free(*stack);
+		*stack = temp;
 	}
-	print_stack("A", a);
-	free_stack(&a);
-	return (0);
+}
+
+void	free_split(char **split)
+{
+	int	i;
+
+	i = 0;
+	if (!split)
+		return ;
+	while (split[i])
+		free(split[i++]);
+	free(split);
 }

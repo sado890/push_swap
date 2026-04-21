@@ -1,44 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   io_ops.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: muarici <muarici@student.42kocaeli.com.tr> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/04/01 15:46:40 by muarici           #+#    #+#             */
-/*   Updated: 2026/04/16 21:22:28 by muarici          ###   ########.fr       */
+/*   Created: 2026/04/16 18:10:00 by muarici           #+#    #+#             */
+/*   Updated: 2026/04/16 18:04:39 by muarici          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-/* --- Main --- */
-
-int	main(int argc, char **argv)
+void	print_stack(char *name, t_node *stack)
 {
-	t_node	*a;
-	char	**split;
-	int		i;
-
-	i = 1;
-	a = NULL;
-	if (argc < 2)
-		return (0);
-	while (i < argc)
+	printf("%s: ", name);
+	while (stack)
 	{
-		split = ft_split(argv[i]);
-		if (!split || !split[0] || get_to_nodes(&a, split) == -1)
-		{
-			if (split)
-				free_split(split);
-			free_stack(&a);
-			write(2, "Error\n", 6);
-			return (1);
-		}
-		free_split(split);
-		i++;
+		printf("%d ", stack->value);
+		stack = stack->next;
 	}
-	print_stack("A", a);
-	free_stack(&a);
-	return (0);
+	printf("\n");
 }

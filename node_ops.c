@@ -1,44 +1,42 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   node_ops.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: muarici <muarici@student.42kocaeli.com.tr> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/04/01 15:46:40 by muarici           #+#    #+#             */
-/*   Updated: 2026/04/16 21:22:28 by muarici          ###   ########.fr       */
+/*   Created: 2026/04/16 18:00:00 by muarici           #+#    #+#             */
+/*   Updated: 2026/04/16 17:47:47 by muarici          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-/* --- Main --- */
-
-int	main(int argc, char **argv)
+t_node	*new_node(int value)
 {
-	t_node	*a;
-	char	**split;
-	int		i;
+	t_node	*node;
 
-	i = 1;
-	a = NULL;
-	if (argc < 2)
-		return (0);
-	while (i < argc)
+	node = malloc(sizeof(t_node));
+	if (!node)
+		return (NULL);
+	node->value = value;
+	node->next = NULL;
+	return (node);
+}
+
+void	add_back(t_node **stack, t_node *new)
+{
+	t_node	*last;
+
+	if (!stack || !new)
+		return ;
+	if (!*stack)
 	{
-		split = ft_split(argv[i]);
-		if (!split || !split[0] || get_to_nodes(&a, split) == -1)
-		{
-			if (split)
-				free_split(split);
-			free_stack(&a);
-			write(2, "Error\n", 6);
-			return (1);
-		}
-		free_split(split);
-		i++;
+		*stack = new;
+		return ;
 	}
-	print_stack("A", a);
-	free_stack(&a);
-	return (0);
+	last = *stack;
+	while (last->next)
+		last = last->next;
+	last->next = new;
 }

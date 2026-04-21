@@ -1,0 +1,19 @@
+✓ Çoklu İşaret (++1)
+✓ İşaret Sonrası Boşluk (+ 1)
+✓ Sayı Arası Çoklu Boşluk
+✓ Başta/Sonda Boşluk
+✓ Min/Max tam sınır
+✓ Uzun sıfırlar
+✓ Limit üstü uzunluk
+✓ Boş argüman kombinasyonu
+✓ Sadece boşluk
+✓ Çoklu tırnak iç mükerrer
+✓ Sıfırın mükerrerliği (0 -0 +0)
+✓ Hatalı sıfır (00 0)
+✓ Çift eksi (--1)
+✓ Tab karakteri
+✓ Non-ASCII karakter
+✓ 500 karışık sayı
+
+Toplam: 16 | Başarılı: 16 | Başarısız: 0
+Başarı Oranı: 100%
