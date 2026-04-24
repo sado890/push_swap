@@ -5,3 +5,5 @@ for i in (seq 1000)
     echo "$perm: $result" >> test_results.txt
 end
 echo "Bitti"
+
+1000 adet 2 ile 100 input arası random değer deneme kodu
