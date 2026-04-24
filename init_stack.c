@@ -6,13 +6,13 @@
 /*   By: muarici <muarici@student.42kocaeli.com.tr> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/16 18:10:00 by muarici           #+#    #+#             */
-/*   Updated: 2026/04/16 18:04:39 by muarici          ###   ########.fr       */
+/*   Updated: 2026/04/24 00:04:36 by muarici          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-int	get_to_nodes(t_node **a, char **split)
+int	fill_stack(t_node **a, char **split)
 {
 	int	i;
 	int	val;

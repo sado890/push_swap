@@ -1,25 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   io_ops.c                                           :+:      :+:    :+:   */
+/*   medium.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: muarici <muarici@student.42kocaeli.com.tr> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/04/16 18:10:00 by muarici           #+#    #+#             */
-/*   Updated: 2026/04/24 00:04:53 by muarici          ###   ########.fr       */
+/*   Created: 2026/04/24 00:13:12 by muarici           #+#    #+#             */
+/*   Updated: 2026/04/24 00:13:14 by muarici          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "push_swap.h"
-
-void	print_stack(char *name, t_node *stack)
-{
-	printf("%s:\n", name);
-	while (stack)
-	{
-		printf("Value: %d | Curr: %d | Target: %d\n",
-			stack->value, stack->curr_idx, stack->target_idx);
-		stack = stack->next;
-	}
-	printf("\n");
-}

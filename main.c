@@ -6,7 +6,7 @@
 /*   By: muarici <muarici@student.42kocaeli.com.tr> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/01 15:46:40 by muarici           #+#    #+#             */
-/*   Updated: 2026/04/16 21:22:28 by muarici          ###   ########.fr       */
+/*   Updated: 2026/04/24 03:34:58 by muarici          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,17 +17,19 @@
 int	main(int argc, char **argv)
 {
 	t_node	*a;
+	t_node	*b;
 	char	**split;
 	int		i;
 
 	i = 1;
 	a = NULL;
+	b = NULL;
 	if (argc < 2)
 		return (0);
 	while (i < argc)
 	{
 		split = ft_split(argv[i]);
-		if (!split || !split[0] || get_to_nodes(&a, split) == -1)
+		if (!split || !split[0] || fill_stack(&a, split) == -1)
 		{
 			if (split)
 				free_split(split);
@@ -38,7 +40,8 @@ int	main(int argc, char **argv)
 		free_split(split);
 		i++;
 	}
-	print_stack("A", a);
+	set_current_and_target_idx(a);
+	a = simple_sort(a, b);
 	free_stack(&a);
 	return (0);
 }
