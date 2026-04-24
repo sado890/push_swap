@@ -1,9 +1,0 @@
-for i in (seq 1000)
-    set size (random 2 100)
-    set perm (seq 1 $size | sort -R | tr '\n' ' ')
-    set result (./push_swap $perm | ./checker_linux $perm)
-    echo "$perm: $result" >> test_results.txt
-end
-echo "Bitti"
-
-1000 adet 2 ile 100 input arası random değer deneme kodu

@@ -20,7 +20,7 @@ RM = rm -f
 
 SRCS		= main.c utils.c node_ops.c stack_ops.c rotate_ops.c parsing.c \
 			  io_ops.c init_stack.c special_ops.c split_ops.c index_calc.c \
-			  simple.c hard_code.c
+			  simple.c hard_code.c disorder.c
 
 OBJS = $(SRCS:.c=.o)
 

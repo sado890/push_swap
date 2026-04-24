@@ -6,7 +6,7 @@
 /*   By: muarici <muarici@student.42kocaeli.com.tr> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/22 03:14:55 by muarici           #+#    #+#             */
-/*   Updated: 2026/04/22 04:05:26 by muarici          ###   ########.fr       */
+/*   Updated: 2026/04/24 03:46:55 by muarici          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ float	compute_disorder(t_node *a)
 		mistakes += comp_for_node(temp);
 		temp = temp->next;
 	}
-	len = list_len(a);
+	len = stack_len(a);
 	if (len <= 1)
 		return (0.0f);
 	total_pairs = len * (len - 1) / 2;

@@ -6,7 +6,7 @@
 /*   By: muarici <muarici@student.42kocaeli.com.tr> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/16 18:00:00 by muarici           #+#    #+#             */
-/*   Updated: 2026/04/24 03:15:27 by muarici          ###   ########.fr       */
+/*   Updated: 2026/04/24 03:45:22 by muarici          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,5 +62,6 @@ t_node				*sort_4(t_node *a, t_node *b);
 t_node				*sort_5(t_node *a, t_node *b);
 t_node				*simple_sort(t_node *a, t_node *b);
 size_t				stack_len(t_node *node);
+float				compute_disorder(t_node *a);
 
 #endif
