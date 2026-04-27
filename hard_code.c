@@ -3,16 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   hard_code.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: muarici <muarici@student.42kocaeli.com.tr> +#+  +:+       +#+        */
+/*   By: muarici <muarici@student.42kocaeli.com.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/24 03:03:40 by muarici           #+#    #+#             */
-/*   Updated: 2026/04/24 03:38:17 by muarici          ###   ########.fr       */
+/*   Updated: 2026/04/26 03:20:32 by muarici          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
-
-/*simple yapmadan önce yazmıştım ama gerek yokmuş şimdilik kalsın*/
 
 t_node	*sort_2(t_node *a)
 {

@@ -3,16 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: muarici <muarici@student.42kocaeli.com.tr> +#+  +:+       +#+        */
+/*   By: muarici <muarici@student.42kocaeli.com.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/01 15:46:40 by muarici           #+#    #+#             */
-/*   Updated: 2026/04/24 15:47:43 by muarici          ###   ########.fr       */
+/*   Updated: 2026/04/27 01:46:51 by muarici          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
-
-/* --- Main --- */
 
 int	main(int argc, char **argv)
 {
@@ -40,17 +38,7 @@ int	main(int argc, char **argv)
 		free_split(split);
 		i++;
 	}
-	set_current_and_target_idx(a);
-	float disorder = compute_disorder(a);
-	dprintf(2, "%f\n", disorder);
-	if (disorder <= 2)
-		a = simple_sort(a, b);
-	/*
-	else if (disorder <= 0.5)
-		a = medium_sort(a, b);
-	else
-		a = complex_sort(a, b);
-	*/
+	execute_adaptive_sort(a,b);
 	free_stack(&a);
 	return (0);
 }

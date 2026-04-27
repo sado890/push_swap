@@ -1,0 +1,2 @@
+--- 100 Input için testler başlıyor (Limit: 2000#!/bin/bash) ---
+--- 500 Input için testler başlıyor (Limit: 12000) ---

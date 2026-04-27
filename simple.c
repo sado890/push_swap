@@ -3,73 +3,58 @@
 /*                                                        :::      ::::::::   */
 /*   simple.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: muarici <muarici@student.42kocaeli.com.tr> +#+  +:+       +#+        */
+/*   By: muarici <muarici@student.42kocaeli.com.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/04/22 04:22:31 by muarici           #+#    #+#             */
-/*   Updated: 2026/04/24 16:50:36 by muarici          ###   ########.fr       */
+/*   Created: 2026/04/26 18:21:01 by muarici           #+#    #+#             */
+/*   Updated: 2026/04/27 02:50:37 by muarici          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-t_node	*selection_sort(t_node *a, t_node *b)
-{
-	while (a)
-	{
-		while (a->target_idx != 0)
-			ra(&a, 1);
-		pb(&b, &a, 1);
-		set_current_and_target_idx(a);
-	}
-	while (b)
-	{
-		pa(&a, &b, 1);
-	}
-	return (a);
-}
-t_node	*insertion_sort(t_node *a, t_node *b)
+static int	get_min_idx(t_node *a)
 {
 	t_node	*temp;
-	int		b_len;
-	while (a)
+
+	temp = a;
+	while (temp)
 	{
-		if (b == NULL || a->value > b->value)
-			pb(&b, &a, 1);
-		else if (b != NULL && a->value < b->value)
-		{
-			temp = b;
-			while (temp->next != NULL)
-				temp = temp->next;
-			if (a->value < temp->value)
-			{
-				pb(&b, &a, 1);
-				rb(&b, 1);
-			}
-			else
-			{
-				b_len = stack_len(b);
-				while (b_len > 0 && a->value < b->value)
-				{
-					rb(&b, 1);
-					b_len--;
-				}
-				pb(&b, &a, 1);
-                while (b_len >= 0)
-                {
-                    rb(&b, 1);
-                    b_len--;
-                }
-			}
-		}
-		set_current_and_target_idx(a);
+		if (temp->target_idx == 0)
+			return (temp->curr_idx);
+		temp = temp->next;
 	}
-	while (b)
-	{
-		pa(&a, &b, 1);
-	}
-	return (a);
+	return (0);
 }
-t_node	*simple_sort(t_node *a, t_node *b)
+
+static void	rotate_to_top(t_node **a, int min_idx, int size)
 {
-	return (insertion_sort(a, b));
+	if (min_idx <= size / 2)
+	{
+		while (min_idx-- > 0)
+			ra(a, 1);
+	}
+	else
+	{
+		while (min_idx++ < size)
+			rra(a, 1);
+	}
+}
+
+void	simple_sort(t_node *a, t_node *b)
+{
+	int		size;
+	int		min_idx;
+
+	size = (int)stack_len(a);
+	while ((int)stack_len(a) > 3)
+	{
+		set_current_and_target_idx(a);
+		size = (int)stack_len(a);
+		min_idx = get_min_idx(a);
+		rotate_to_top(&a, min_idx, size);
+		pb(&b, &a, 1);
+	}
+	a = sort_3(a);
+	while (b)
+		pa(&a, &b, 1);
 }
