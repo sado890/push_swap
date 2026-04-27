@@ -12,7 +12,7 @@
 
 #include "push_swap.h"
 
-int	handle_small_size(t_node *a, t_node *b, int size, t_info *bench)
+int	handle_small_size(t_node **a, t_node **b, int size, t_info *bench)
 {
 	if (size == 5)
 		sort_5(a, b, bench);
@@ -27,45 +27,119 @@ int	handle_small_size(t_node *a, t_node *b, int size, t_info *bench)
 	return (0);
 }
 
-static void	radix_sort(t_node **a, t_node **b, int size, t_info *bench)
+static void	init_lis_arrays(t_node *a, int *arr, int *lis, int *parent)
 {
-	int	max_bits;
 	int	i;
-	int	j;
 
-	max_bits = 0;
-	while (((size - 1) >> max_bits) != 0)
-		max_bits++;
 	i = 0;
-	while (i < max_bits)
+	while (a)
 	{
-		j = 0;
-		while (j < size)
-		{
-			if ((((*a)->target_idx >> i) & 1) == 0)
-				pb(b, a, 1, bench);
-			else
-				ra(a, 1, bench);
-			j++;
-		}
-		while (*b)
-			pa(a, b, 1, bench);
+		arr[i] = a->target_idx;
+		lis[i] = 1;
+		parent[i] = -1;
+		a->curr_idx = 0;
+		a = a->next;
 		i++;
 	}
 }
 
-void	complex_sort(t_node *a, t_node *b, t_info *bench)
+static int	calc_lis(int *arr, int *lis, int *parent, int size)
+{
+	int	i;
+	int	j;
+	int	max;
+	int	best;
+
+	max = 1;
+	best = 0;
+	i = 1;
+	while (i < size)
+	{
+		j = 0;
+		while (j < i)
+		{
+			if (arr[i] > arr[j] && lis[i] < lis[j] + 1)
+			{
+				lis[i] = lis[j] + 1;
+				parent[i] = j;
+			}
+			j++;
+		}
+		if (lis[i] > max)
+		{
+			max = lis[i];
+			best = i;
+		}
+		i++;
+	}
+	return (best);
+}
+
+static void	mark_lis(t_node *a, int size)
+{
+	int		*arr;
+	int		*lis;
+	int		*parent;
+	t_node	*tmp;
+	int		curr;
+	int		j;
+
+	arr = malloc(sizeof(int) * size);
+	lis = malloc(sizeof(int) * size);
+	parent = malloc(sizeof(int) * size);
+	if (!arr || !lis || !parent)
+	{
+		free(arr);
+		free(lis);
+		free(parent);
+		return ;
+	}
+	init_lis_arrays(a, arr, lis, parent);
+	curr = calc_lis(arr, lis, parent, size);
+	while (curr != -1)
+	{
+		tmp = a;
+		j = 0;
+		while (j++ < curr)
+			tmp = tmp->next;
+		tmp->curr_idx = 1;
+		curr = parent[curr];
+	}
+	free(arr);
+	free(lis);
+	free(parent);
+}
+
+static void	push_non_lis(t_node **a, t_node **b, t_info *bench, int size)
+{
+	int	i;
+
+	mark_lis(*a, size);
+	i = 0;
+	while (i < size)
+	{
+		if ((*a)->curr_idx == 0)
+		{
+			pb(b, a, 1, bench);
+			if (stack_len(*b) > 1 && (*b)->target_idx < size / 2)
+				rb(b, 1, bench);
+		}
+		else
+			ra(a, 1, bench);
+		i++;
+	}
+}
+
+void	complex_sort(t_node **a, t_node **b, t_info *bench)
 {
 	int	size;
 
-	set_current_and_target_idx(a);
-	size = (int)stack_len(a);
+	set_current_and_target_idx(*a);
+	size = (int)stack_len(*a);
 	if (handle_small_size(a, b, size, bench) != -1)
 		return ;
-	if (size <= 100)
-	{
-		medium_sort(a, b, bench);
-		return ;
-	}
-	radix_sort(&a, &b, size, bench);
+	push_non_lis(a, b, bench, size);
+	while (*b)
+		push_back_cheapest(a, b, bench);
+	final_align(a, bench);
 }

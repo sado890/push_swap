@@ -12,63 +12,63 @@
 
 #include "push_swap.h"
 
-t_node	*sort_2(t_node *a, t_info *bench)
+t_node	*sort_2(t_node **a, t_info *bench)
 {
-	if (a->target_idx > a->next->target_idx)
-		sa(&a, 1, bench);
-	return (a);
+	if ((*a)->target_idx > (*a)->next->target_idx)
+		sa(a, 1, bench);
+	return (*a);
 }
 
-t_node	*sort_3(t_node *a, t_info *bench)
+t_node	*sort_3(t_node **a, t_info *bench)
 {
-	set_current_and_target_idx(a);
-	if (a->target_idx == 0 && a->next->target_idx == 2)
+	set_current_and_target_idx(*a);
+	if ((*a)->target_idx == 0 && (*a)->next->target_idx == 2)
 	{
-		sa(&a, 1, bench);
-		ra(&a, 1, bench);
+		sa(a, 1, bench);
+		ra(a, 1, bench);
 	}
-	else if (a->target_idx == 1 && a->next->target_idx == 0)
-		sa(&a, 1, bench);
-	else if (a->target_idx == 1 && a->next->target_idx == 2)
-		rra(&a, 1, bench);
-	else if (a->target_idx == 2 && a->next->target_idx == 0)
-		ra(&a, 1, bench);
-	else if (a->target_idx == 2 && a->next->target_idx == 1)
+	else if ((*a)->target_idx == 1 && (*a)->next->target_idx == 0)
+		sa(a, 1, bench);
+	else if ((*a)->target_idx == 1 && (*a)->next->target_idx == 2)
+		rra(a, 1, bench);
+	else if ((*a)->target_idx == 2 && (*a)->next->target_idx == 0)
+		ra(a, 1, bench);
+	else if ((*a)->target_idx == 2 && (*a)->next->target_idx == 1)
 	{
-		sa(&a, 1, bench);
-		rra(&a, 1, bench);
+		sa(a, 1, bench);
+		rra(a, 1, bench);
 	}
-	set_current_and_target_idx(a);
-	return (a);
+	set_current_and_target_idx(*a);
+	return (*a);
 }
 
-t_node	*sort_4(t_node *a, t_node *b, t_info *bench)
+t_node	*sort_4(t_node **a, t_node **b, t_info *bench)
 {
-	while (a->target_idx != 0)
-		ra(&a, 1, bench);
-	pb(&b, &a, 1, bench);
-	a = sort_3(a, bench);
-	pa(&a, &b, 1, bench);
-	set_current_and_target_idx(a);
-	return (a);
+	while ((*a)->target_idx != 0)
+		ra(a, 1, bench);
+	pb(b, a, 1, bench);
+	sort_3(a, bench);
+	pa(a, b, 1, bench);
+	set_current_and_target_idx(*a);
+	return (*a);
 }
 
-t_node	*sort_5(t_node *a, t_node *b, t_info *bench)
+t_node	*sort_5(t_node **a, t_node **b, t_info *bench)
 {
 	int	len;
 
 	len = 5;
-	while (a->target_idx != 0)
+	while ((*a)->target_idx != 0)
 	{
-		if (get_target_pos(a, 0) > len / 2)
-			rra(&a, 1, bench);
+		if (get_target_pos(*a, 0) > len / 2)
+			rra(a, 1, bench);
 		else
-			ra(&a, 1, bench);
+			ra(a, 1, bench);
 	}
-	pb(&b, &a, 1, bench);
-	set_current_and_target_idx(a);
-	a = sort_4(a, b, bench);
-	pa(&a, &b, 1, bench);
-	set_current_and_target_idx(a);
-	return (a);
+	pb(b, a, 1, bench);
+	set_current_and_target_idx(*a);
+	sort_4(a, b, bench);
+	pa(a, b, 1, bench);
+	set_current_and_target_idx(*a);
+	return (*a);
 }

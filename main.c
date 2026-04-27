@@ -14,27 +14,33 @@
 
 static char	parse_flag(char *arg)
 {
-	if (!arg)
+	if (arg[0] == '-' && arg[1] == '-') 
+	{
+		if (ft_strncmp(arg, "--bench", 7) == 0)
+			return ('B');
+		else if (ft_strncmp(arg, "--simple", 8) == 0)
+			return ('S');
+		else if (ft_strncmp(arg, "--medium", 8) == 0)
+			return ('M');
+		else if (ft_strncmp(arg, "--complex", 9) == 0)
+			return ('C');
+		else if (ft_strncmp(arg, "--adaptive", 10) == 0)
+			return ('A');
+		else
+	 		return ('E');
+	}
+	else 
+	{
 		return ('N');
-	if (ft_strncmp(arg, "-b", 2) == 0 || ft_strncmp(arg, "--bench", 7) == 0)
-		return ('B');
-	if (ft_strncmp(arg, "-s", 2) == 0 || ft_strncmp(arg, "--simple", 8) == 0)
-		return ('S');
-	if (ft_strncmp(arg, "-m", 2) == 0 || ft_strncmp(arg, "--medium", 8) == 0)
-		return ('M');
-	if (ft_strncmp(arg, "-c", 2) == 0 || ft_strncmp(arg, "--complex", 9) == 0)
-		return ('C');
-	if (ft_strncmp(arg, "-a", 2) == 0 || ft_strncmp(arg, "--adaptive", 10) == 0)
-		return ('A');
-	if (arg[0] == '-')
-		return ('E');
-	return ('N');
+	}
 }
 
-static int	cleanup_and_exit(t_node **a, t_info *bench, int status)
+int	cleanup_and_exit(t_node **a, t_node **b, t_info *bench, int status)
 {
 	if (a && *a)
 		free_stack(a);
+	if (b && *b)
+		free_stack(b);
 	if (bench)
 		free(bench);
 	if (status == 1)
@@ -69,6 +75,7 @@ static void	set_strategy(char format, t_strategy *strat, t_info *bench)
 int	main(int argc, char **argv)
 {
 	t_node		*a;
+	t_node		*b_stack;
 	t_info		*bench;
 	t_strategy	strat;
 	char		f;
@@ -77,17 +84,18 @@ int	main(int argc, char **argv)
 	if (argc < 2)
 		return (0);
 	a = NULL;
+	b_stack = NULL;
 	bench = malloc(sizeof(t_info));
 	if (!bench)
 		return (1);
 	init_main_vars(argv, &f, &i, bench);
 	if (f == 'E' || parse_and_fill_all(&a, argc, argv, i) == -1)
-		return (cleanup_and_exit(&a, bench, 1));
+		return (cleanup_and_exit(&a, &b_stack, bench, 1));
 	set_current_and_target_idx(a);
 	bench->disorder = compute_disorder(a);
 	set_strategy(f, &strat, bench);
-	run_strategy(a, NULL, strat, bench);
+	run_strategy(&a, &b_stack, strat, bench);
 	if (bench->bench_mode)
 		print_bench(bench);
-	return (cleanup_and_exit(&a, bench, 0));
+	return (cleanup_and_exit(&a, &b_stack, bench, 0));
 }

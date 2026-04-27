@@ -64,17 +64,17 @@ int	get_target_pos(t_node *a, int b_val)
 	return (find_min_pos(a));
 }
 
-static void	rotate_both(t_node **a, t_node **b, int *ca, int *cb)
+static void	rotate_both(t_node **a, t_node **b, int *ca, int *cb, t_info *bench)
 {
 	while (*ca > 0 && *cb > 0)
 	{
-		rr(a, b, NULL);
+		rr(a, b, bench);
 		(*ca)--;
 		(*cb)--;
 	}
 	while (*ca < 0 && *cb < 0)
 	{
-		rrr(a, b, NULL);
+		rrr(a, b, bench);
 		(*ca)++;
 		(*cb)++;
 	}
@@ -87,7 +87,7 @@ void	do_rotate(t_node **a, t_node **b, int *moves, t_info *bench)
 
 	ca = moves[0];
 	cb = moves[1];
-	rotate_both(a, b, &ca, &cb);
+	rotate_both(a, b, &ca, &cb, bench);
 	while (ca > 0 && ca--)
 		ra(a, 1, bench);
 	while (ca < 0 && ca++)

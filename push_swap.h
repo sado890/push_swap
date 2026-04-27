@@ -58,8 +58,10 @@ int					ft_strlen(char *s);
 void				free_stack(t_node **stack);
 void				free_split(char **split);
 
+int	cleanup_and_exit(t_node **a, t_node **b, t_info *bench, int status);
+
 t_node				*new_node(int value);
-void				add_back(t_node **stack, t_node *new);
+void				add_back(t_node **stack, t_node *new_node);
 size_t				stack_len(t_node *node);
 
 int					is_clear(char *str);
@@ -87,25 +89,27 @@ void				rra(t_node **a, int print, t_info *bench);
 void				rrb(t_node **b, int print, t_info *bench);
 void				rrr(t_node **a, t_node **b, t_info *bench);
 
-t_node				*sort_2(t_node *a, t_info *bench);
-t_node				*sort_3(t_node *a, t_info *bench);
-t_node				*sort_4(t_node *a, t_node *b, t_info *bench);
-t_node				*sort_5(t_node *a, t_node *b, t_info *bench);
-void				simple_sort(t_node *a, t_node *b, t_info *bench);
-void				medium_sort(t_node *a, t_node *b, t_info *bench);
-void				complex_sort(t_node *a, t_node *b, t_info *bench);
+t_node				*sort_2(t_node **a, t_info *bench);
+t_node				*sort_3(t_node **a, t_info *bench);
+t_node				*sort_4(t_node **a, t_node **b, t_info *bench);
+t_node				*sort_5(t_node **a, t_node **b, t_info *bench);
+void				simple_sort(t_node **a, t_node **b, t_info *bench);
+void				medium_sort(t_node **a, t_node **b, t_info *bench);
+void				complex_sort(t_node **a, t_node **b, t_info *bench);
+void				push_back_cheapest(t_node **a, t_node **b, t_info *bench);
+void				final_align(t_node **a, t_info *bench);
 
 int					get_cost(int size, int idx);
 int					get_target_pos(t_node *a, int b_val);
 void				do_rotate(t_node **a, t_node **b, int *moves,
 						t_info *bench);
 
-int					handle_small_size(t_node *a, t_node *b, int size,
+int					handle_small_size(t_node **a, t_node **b, int size,
 						t_info *bench);
 
 float				compute_disorder(t_node *a);
-void				execute_adaptive_sort(t_node *a, t_node *b, t_info *bench);
-void				run_strategy(t_node *a, t_node *b, t_strategy strat,
+void				execute_adaptive_sort(t_node **a, t_node **b, t_info *bench);
+void				run_strategy(t_node **a, t_node **b, t_strategy strat,
 						t_info *bench);
 
 int					parse_and_fill_all(t_node **a, int argc, char **argv,

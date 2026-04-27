@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "push_swap.h"
+#include <unistd.h>
 
 void	print_stack(char *name, t_node *stack)
 {
@@ -32,6 +33,8 @@ static void	print_strategy(t_info *bench)
 		printf("[bench] strategy:   Medium / O(n√n)\n");
 	else if (bench->strategy == HIGH_DISORDER)
 		printf("[bench] strategy:   Complex / O(n log n)\n");
+	else if (bench->notation == NULL)
+		printf("[bench] strategy:   Adaptive / O(1)\n");
 	else
 		printf("[bench] strategy:   Adaptive / %s\n", bench->notation);
 }

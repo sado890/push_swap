@@ -26,21 +26,21 @@ t_node	*new_node(int value)
 	return (node);
 }
 
-void	add_back(t_node **node, t_node *new)
+void	add_back(t_node **node, t_node *new_node)
 {
 	t_node	*last;
 
-	if (!node || !new)
+	if (!node || !new_node)
 		return ;
 	if (!*node)
 	{
-		*node = new;
+		*node = new_node;
 		return ;
 	}
 	last = *node;
 	while (last->next)
 		last = last->next;
-	last->next = new;
+	last->next = new_node;
 }
 
 size_t	stack_len(t_node *node)

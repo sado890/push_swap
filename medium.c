@@ -12,7 +12,7 @@
 
 #include "push_swap.h"
 
-static void	push_back_cheapest(t_node **a, t_node **b, t_info *bench)
+void	push_back_cheapest(t_node **a, t_node **b, t_info *bench)
 {
 	t_node	*tmp;
 	int		best_val;
@@ -76,7 +76,7 @@ static void	push_chunks(t_node **a, t_node **b, t_info *bench)
 	}
 }
 
-static void	final_align(t_node **a, t_info *bench)
+void	final_align(t_node **a, t_info *bench)
 {
 	int		min_idx;
 	t_node	*tmp;
@@ -101,15 +101,15 @@ static void	final_align(t_node **a, t_info *bench)
 	}
 }
 
-void	medium_sort(t_node *a, t_node *b, t_info *bench)
+void	medium_sort(t_node **a, t_node **b, t_info *bench)
 {
 	int	len;
 
-	len = (int)stack_len(a);
+	len = (int)stack_len(*a);
 	if (handle_small_size(a, b, len, bench) != -1)
 		return ;
-	push_chunks(&a, &b, bench);
-	while (b)
-		push_back_cheapest(&a, &b, bench);
-	final_align(&a, bench);
+	push_chunks(a, b, bench);
+	while (*b)
+		push_back_cheapest(a, b, bench);
+	final_align(a, bench);
 }

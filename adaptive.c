@@ -11,9 +11,12 @@
 /* ************************************************************************** */
 
 #include "push_swap.h"
+#include <stdlib.h>
 
-void	run_strategy(t_node *a, t_node *b, t_strategy strat, t_info *bench)
+void	run_strategy(t_node **a, t_node **b, t_strategy strat, t_info *bench)
 {
+	if (bench->disorder == 0.0f)
+		return ;
 	if (strat == LOW_DISORDER)
 	{
 		bench->notation = "O(n^2)";
@@ -37,13 +40,13 @@ void	run_strategy(t_node *a, t_node *b, t_strategy strat, t_info *bench)
 		write(1, "error\n", 7);
 }
 
-void	execute_adaptive_sort(t_node *a, t_node *b, t_info *bench)
+void	execute_adaptive_sort(t_node **a, t_node **b, t_info *bench)
 {
 	float		disorder;
 	t_strategy	strat;
 
-	set_current_and_target_idx(a);
-	disorder = compute_disorder(a);
+	set_current_and_target_idx(*a);
+	disorder = compute_disorder(*a);
 	if (disorder < 0.2f)
 		strat = LOW_DISORDER;
 	else if (disorder >= 0.2f && disorder <= 0.5f)
