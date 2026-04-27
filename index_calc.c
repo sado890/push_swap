@@ -6,16 +6,16 @@
 /*   By: muarici <muarici@student.42kocaeli.com.tr> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/22 04:41:59 by muarici           #+#    #+#             */
-/*   Updated: 2026/04/24 01:39:28 by muarici          ###   ########.fr       */
+/*   Updated: 2026/04/27 15:38:59 by muarici          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-void set_current_and_target_idx(t_node *stack)
+void	set_current_and_target_idx(t_node *stack)
 {
-    set_current_indices(stack);
-    set_target_indices(stack);
+	set_current_indices(stack);
+	set_target_indices(stack);
 }
 
 void	set_current_indices(t_node *stack)

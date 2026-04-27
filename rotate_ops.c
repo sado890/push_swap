@@ -6,13 +6,13 @@
 /*   By: muarici <muarici@student.42kocaeli.com.tr> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/16 18:00:00 by muarici           #+#    #+#             */
-/*   Updated: 2026/04/22 03:13:56 by muarici          ###   ########.fr       */
+/*   Updated: 2026/04/27 15:42:18 by muarici          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-void	ra(t_node **a, int print)
+void	ra(t_node **a, int print, t_info *bench)
 {
 	t_node	*first;
 	t_node	*last;
@@ -26,11 +26,13 @@ void	ra(t_node **a, int print)
 	*a = first->next;
 	first->next = NULL;
 	last->next = first;
-	if (print)
+	if (bench)
+		bench->ra++;
+	if (print && !(bench && bench->bench_mode))
 		write(1, "ra\n", 3);
 }
 
-void	rb(t_node **b, int print)
+void	rb(t_node **b, int print, t_info *bench)
 {
 	t_node	*first;
 	t_node	*last;
@@ -44,18 +46,13 @@ void	rb(t_node **b, int print)
 	*b = first->next;
 	first->next = NULL;
 	last->next = first;
-	if (print)
+	if (bench)
+		bench->rb++;
+	if (print && !(bench && bench->bench_mode))
 		write(1, "rb\n", 3);
 }
 
-void	rr(t_node **a, t_node **b)
-{
-	ra(a, 0);
-	rb(b, 0);
-	write(1, "rr\n", 3);
-}
-
-void	rra(t_node **a, int print)
+void	rra(t_node **a, int print, t_info *bench)
 {
 	t_node	*last;
 	t_node	*prev;
@@ -72,11 +69,13 @@ void	rra(t_node **a, int print)
 	prev->next = NULL;
 	last->next = *a;
 	*a = last;
-	if (print)
+	if (bench)
+		bench->rra++;
+	if (print && !(bench && bench->bench_mode))
 		write(1, "rra\n", 4);
 }
 
-void	rrb(t_node **b, int print)
+void	rrb(t_node **b, int print, t_info *bench)
 {
 	t_node	*last;
 	t_node	*prev;
@@ -93,6 +92,8 @@ void	rrb(t_node **b, int print)
 	prev->next = NULL;
 	last->next = *b;
 	*b = last;
-	if (print)
+	if (bench)
+		bench->rrb++;
+	if (print && !(bench && bench->bench_mode))
 		write(1, "rrb\n", 4);
 }
