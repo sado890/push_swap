@@ -60,7 +60,7 @@ void	execute_adaptive_sort(t_node *a, t_node *b, t_info *bench)
 /*   By: muarici <muarici@student.42kocaeli.com.tr> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/24 00:12:45 by muarici           #+#    #+#             */
-/*   Updated: 2026/04/27 16:51:19 by muarici          ###   ########.fr       */
+/*   Updated: 2026/04/27 19:52:29 by muarici          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ static void	radix_sort(t_node **a, t_node **b, int size, t_info *bench)
 	int	j;
 
 	max_bits = 0;
-	while ((size >> max_bits) != 0)
+	while (((size - 1) >> max_bits) != 0)
 		max_bits++;
 	i = 0;
 	while (i < max_bits)
@@ -111,13 +111,16 @@ static void	radix_sort(t_node **a, t_node **b, int size, t_info *bench)
 void	complex_sort(t_node *a, t_node *b, t_info *bench)
 {
 	int	size;
-	int	i;
 
 	set_current_and_target_idx(a);
 	size = (int)stack_len(a);
-	i = handle_small_size(a, b, size, bench);
-	if (i != -1)
+	if (handle_small_size(a, b, size, bench) != -1)
 		return ;
+	if (size <= 100)
+	{
+		medium_sort(a, b, bench);
+		return ;
+	}
 	radix_sort(&a, &b, size, bench);
 }
 /* ************************************************************************** */
@@ -182,7 +185,7 @@ float	compute_disorder(t_node *a)
 /*   By: muarici <muarici@student.42kocaeli.com.tr> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/24 03:03:40 by muarici           #+#    #+#             */
-/*   Updated: 2026/04/27 15:38:25 by muarici          ###   ########.fr       */
+/*   Updated: 2026/04/27 19:54:59 by muarici          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -231,11 +234,19 @@ t_node	*sort_4(t_node *a, t_node *b, t_info *bench)
 
 t_node	*sort_5(t_node *a, t_node *b, t_info *bench)
 {
+	int	len;
+
+	len = 5;
 	while (a->target_idx != 0)
-		ra(&a, 1, bench);
+	{
+		if (get_target_pos(a, 0) > len / 2)
+			rra(&a, 1, bench);
+		else
+			ra(&a, 1, bench);
+	}
 	pb(&b, &a, 1, bench);
 	set_current_and_target_idx(a);
-	sort_4(a, b, bench);
+	a = sort_4(a, b, bench);
 	pa(&a, &b, 1, bench);
 	set_current_and_target_idx(a);
 	return (a);
@@ -301,11 +312,35 @@ void	set_target_indices(t_node *stack)
 /*   By: muarici <muarici@student.42kocaeli.com.tr> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/16 18:10:00 by muarici           #+#    #+#             */
-/*   Updated: 2026/04/24 00:04:36 by muarici          ###   ########.fr       */
+/*   Updated: 2026/04/27 19:48:33 by muarici          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
+
+int	parse_and_fill_all(t_node **a, int argc, char **argv, int i)
+{
+	char	**split;
+	int		res;
+
+	while (i < argc)
+	{
+		split = ft_split(argv[i]);
+		if (!split)
+			return (-1);
+		if (!split[0])
+		{
+			free_split(split);
+			return (-1);
+		}
+		res = fill_stack(a, split);
+		free_split(split);
+		if (res == -1)
+			return (-1);
+		i++;
+	}
+	return (0);
+}
 
 int	fill_stack(t_node **a, char **split)
 {
@@ -386,7 +421,7 @@ void	print_bench(t_info *bench)
 /*   By: muarici <muarici@student.42kocaeli.com.tr> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/01 15:46:40 by muarici           #+#    #+#             */
-/*   Updated: 2026/04/27 17:09:00 by muarici          ###   ########.fr       */
+/*   Updated: 2026/04/27 19:45:18 by muarici          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -394,119 +429,83 @@ void	print_bench(t_info *bench)
 
 static char	parse_flag(char *arg)
 {
-	if (arg[0] == '-' && arg[1] == '-')
-	{
-		if (ft_strncmp(arg, "--simple", 9) == 0)
-			return ('S');
-		else if (ft_strncmp(arg, "--medium", 9) == 0)
-			return ('M');
-		else if (ft_strncmp(arg, "--complex", 10) == 0)
-			return ('C');
-		else if (ft_strncmp(arg, "--adaptive", 11) == 0)
-			return ('A');
-		else if (ft_strncmp(arg, "--bench", 8) == 0)
-			return ('B');
-		else
-			return ('E');
-	}
+	if (!arg)
+		return ('N');
+	if (ft_strncmp(arg, "-b", 2) == 0 || ft_strncmp(arg, "--bench", 7) == 0)
+		return ('B');
+	if (ft_strncmp(arg, "-s", 2) == 0 || ft_strncmp(arg, "--simple", 8) == 0)
+		return ('S');
+	if (ft_strncmp(arg, "-m", 2) == 0 || ft_strncmp(arg, "--medium", 8) == 0)
+		return ('M');
+	if (ft_strncmp(arg, "-c", 2) == 0 || ft_strncmp(arg, "--complex", 9) == 0)
+		return ('C');
+	if (ft_strncmp(arg, "-a", 2) == 0 || ft_strncmp(arg, "--adaptive", 10) == 0)
+		return ('A');
+	if (arg[0] == '-')
+		return ('E');
 	return ('N');
 }
 
-static int	parse_and_fill_all(t_node **a, int argc, char **argv, int i)
+static int	cleanup_and_exit(t_node **a, t_info *bench, int status)
 {
-	char	**split;
+	if (a && *a)
+		free_stack(a);
+	if (bench)
+		free(bench);
+	if (status == 1)
+		write(2, "Error\n", 6);
+	return (status);
+}
 
-	while (i < argc)
-	{
-		split = ft_split(argv[i]);
-		if (!split || !split[0] || fill_stack(a, split) == -1)
-		{
-			if (split)
-				free_split(split);
-			return (-1);
-		}
-		free_split(split);
-		i++;
-	}
-	return (0);
+static void	init_main_vars(char **argv, char *f, int *i, t_info *bench)
+{
+	*f = parse_flag(argv[1]);
+	*i = 1;
+	if (*f == 'B' || (*f != 'N' && *f != 'E'))
+		*i = 2;
+	ft_memset(bench, 0, sizeof(t_info));
+	if (*f == 'B')
+		bench->bench_mode = 1;
 }
 
 static void	set_strategy(char format, t_strategy *strat, t_info *bench)
 {
-	if (format == 'A' || format == 'N')
-	{
-		bench->strategy = ADAPTIVE;
+	if (format == 'A' || format == 'N' || format == 'B')
 		*strat = ADAPTIVE;
-	}
 	else if (format == 'S')
-	{
-		bench->strategy = LOW_DISORDER;
 		*strat = LOW_DISORDER;
-	}
 	else if (format == 'M')
-	{
-		bench->strategy = MEDIUM_DISORDER;
 		*strat = MEDIUM_DISORDER;
-	}
-	else if (format == 'C')
-	{
-		bench->strategy = HIGH_DISORDER;
+	else
 		*strat = HIGH_DISORDER;
-	}
+	bench->strategy = *strat;
 }
 
 int	main(int argc, char **argv)
 {
 	t_node		*a;
-	t_node		*b;
 	t_info		*bench;
 	t_strategy	strat;
-	char		format;
+	char		f;
 	int			i;
 
 	if (argc < 2)
 		return (0);
 	a = NULL;
-	b = NULL;
-	i = 1;
-	format = parse_flag(argv[1]);
 	bench = malloc(sizeof(t_info));
 	if (!bench)
 		return (1);
-	strat = ADAPTIVE;
-	ft_memset(bench, 0, sizeof(t_info));
-	if (format == 'B')
-	{
-		bench->bench_mode = 1;
-		i = 2;
-		format = 'A';
-	}
-	else if (format != 'N' && format != 'E')
-		i++;
-	if (parse_and_fill_all(&a, argc, argv, i) == -1)
-	{
-		free_stack(&a);
-		free(bench);
-		write(2, "Error\n", 6);
-		return (1);
-	}
-	if (format == 'E')
-	{
-		free_stack(&a);
-		free(bench);
-		return (write(2, "Error\n", 6), 1);
-	}
+	init_main_vars(argv, &f, &i, bench);
+	if (f == 'E' || parse_and_fill_all(&a, argc, argv, i) == -1)
+		return (cleanup_and_exit(&a, bench, 1));
 	set_current_and_target_idx(a);
 	bench->disorder = compute_disorder(a);
-	set_strategy(format, &strat, bench);
-	run_strategy(a, b, strat, bench);
-	if (bench->bench_mode == 1)
+	set_strategy(f, &strat, bench);
+	run_strategy(a, NULL, strat, bench);
+	if (bench->bench_mode)
 		print_bench(bench);
-	free(bench);
-	free_stack(&a);
-	return (0);
-}
-/* ************************************************************************** */
+	return (cleanup_and_exit(&a, bench, 0));
+}/* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   medium.c                                           :+:      :+:    :+:   */
@@ -514,139 +513,64 @@ int	main(int argc, char **argv)
 /*   By: muarici <muarici@student.42kocaeli.com.tr> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/27 03:45:14 by muarici           #+#    #+#             */
-/*   Updated: 2026/04/27 16:28:36 by muarici          ###   ########.fr       */
+/*   Updated: 2026/04/27 20:06:25 by muarici          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
-#include <stdlib.h>
-
-static int	get_cost(int size, int idx)
-{
-	if (idx <= size / 2)
-		return (idx);
-	return (idx - size);
-}
-
-static int	get_target_pos(t_node *a, int b_val)
-{
-	t_node	*tmp;
-	int		best_idx;
-	int		best_val;
-
-	tmp = a;
-	best_idx = -1;
-	best_val = 2147483647;
-	while (tmp)
-	{
-		if (tmp->value > b_val && tmp->value < best_val)
-		{
-			best_val = tmp->value;
-			best_idx = tmp->curr_idx;
-		}
-		tmp = tmp->next;
-	}
-	if (best_idx != -1)
-		return (best_idx);
-	tmp = a;
-	best_val = 2147483647;
-	while (tmp)
-	{
-		if (tmp->value < best_val)
-		{
-			best_val = tmp->value;
-			best_idx = tmp->curr_idx;
-		}
-		tmp = tmp->next;
-	}
-	return (best_idx);
-}
-
-static void	do_rotate(t_node **a, t_node **b, int ca, int cb, t_info *bench)
-{
-	while (ca > 0 && cb > 0)
-	{
-		rr(a, b, bench);
-		ca--;
-		cb--;
-	}
-	while (ca < 0 && cb < 0)
-	{
-		rrr(a, b, bench);
-		ca++;
-		cb++;
-	}
-	while (ca > 0)
-	{
-		ra(a, 1, bench);
-		ca--;
-	}
-	while (ca < 0)
-	{
-		rra(a, 1, bench);
-		ca++;
-	}
-	while (cb > 0)
-	{
-		rb(b, 1, bench);
-		cb--;
-	}
-	while (cb < 0)
-	{
-		rrb(b, 1, bench);
-		cb++;
-	}
-}
 
 static void	push_back_cheapest(t_node **a, t_node **b, t_info *bench)
 {
 	t_node	*tmp;
-	int		best;
-	int		best_a;
-	int		best_b;
-	int		target;
-	int		ca;
-	int		cb;
-	int		total;
+	int		best_val;
+	int		move[2];
+	int		curr[2];
 
-	best = 2147483647;
-	best_a = 0;
-	best_b = 0;
+	best_val = 2147483647;
 	set_current_and_target_idx(*a);
 	set_current_indices(*b);
 	tmp = *b;
 	while (tmp)
 	{
-		target = get_target_pos(*a, tmp->value);
-		ca = get_cost(stack_len(*a), target);
-		cb = get_cost(stack_len(*b), tmp->curr_idx);
-		total = abs(ca) + abs(cb);
-		if (total < best)
+		curr[0] = get_cost(stack_len(*a), get_target_pos(*a, tmp->value));
+		curr[1] = get_cost(stack_len(*b), tmp->curr_idx);
+		if (abs(curr[0]) + abs(curr[1]) < best_val)
 		{
-			best = total;
-			best_a = ca;
-			best_b = cb;
+			best_val = abs(curr[0]) + abs(curr[1]);
+			move[0] = curr[0];
+			move[1] = curr[1];
 		}
 		tmp = tmp->next;
 	}
-	do_rotate(a, b, best_a, best_b, bench);
+	do_rotate(a, b, move, bench);
 	pa(a, b, 1, bench);
 }
 
 static void	push_chunks(t_node **a, t_node **b, t_info *bench)
 {
+	int	size;
 	int	chunk;
 	int	pushed;
 
-	chunk = 30;
+	size = (int)stack_len(*a);
+
+	// 🔥 kritik fix: target indexleri set etmeden chunk yapma
+	set_current_and_target_idx(*a);
+
+	// 🔥 adaptive chunk (100 ve 500 ayrı)
+	if (size <= 100)
+		chunk = size / 6;
+	else
+		chunk = size / 11;
+
 	pushed = 0;
 	while (*a)
 	{
-		set_current_and_target_idx(*a);
 		if ((*a)->target_idx <= pushed)
 		{
 			pb(b, a, 1, bench);
-			rb(b, 1, bench);
+			if ((*b)->target_idx < pushed / 2)
+				rb(b, 1, bench);
 			pushed++;
 		}
 		else if ((*a)->target_idx <= pushed + chunk)
@@ -667,10 +591,8 @@ static void	final_align(t_node **a, t_info *bench)
 	min_idx = 0;
 	set_current_and_target_idx(*a);
 	tmp = *a;
-	while (tmp)
+	while (tmp && tmp->target_idx != 0)
 	{
-		if (tmp->target_idx == 0)
-			break ;
 		min_idx++;
 		tmp = tmp->next;
 	}
@@ -688,21 +610,115 @@ static void	final_align(t_node **a, t_info *bench)
 
 void	medium_sort(t_node *a, t_node *b, t_info *bench)
 {
-	t_node	*stack_a;
-	t_node	*stack_b;
-	int len;
+	int	len;
 
-	stack_a = a;
-	stack_b = b;
-	len = (int)stack_len(stack_a);
+	len = (int)stack_len(a);
 	if (handle_small_size(a, b, len, bench) != -1)
 		return ;
-	push_chunks(&stack_a, &stack_b, bench);
-	while (stack_b)
-		push_back_cheapest(&stack_a, &stack_b, bench);
-	final_align(&stack_a, bench);
+	push_chunks(&a, &b, bench);
+	while (b)
+		push_back_cheapest(&a, &b, bench);
+	final_align(&a, bench);
 }
+
 /* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   medium_utils.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: muarici <muarici@student.42kocaeli.com.tr> +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/04/27 17:17:44 by muarici           #+#    #+#             */
+/*   Updated: 2026/04/27 17:24:55 by muarici          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "push_swap.h"
+
+int	get_cost(int size, int idx)
+{
+	if (idx <= size / 2)
+		return (idx);
+	return (idx - size);
+}
+
+static int	find_min_pos(t_node *a)
+{
+	int		min_val;
+	int		min_idx;
+	t_node	*tmp;
+
+	min_val = 2147483647;
+	min_idx = 0;
+	tmp = a;
+	while (tmp)
+	{
+		if (tmp->value < min_val)
+		{
+			min_val = tmp->value;
+			min_idx = tmp->curr_idx;
+		}
+		tmp = tmp->next;
+	}
+	return (min_idx);
+}
+
+int	get_target_pos(t_node *a, int b_val)
+{
+	t_node	*tmp;
+	int		best_idx;
+	int		best_val;
+
+	tmp = a;
+	best_idx = -1;
+	best_val = 2147483647;
+	while (tmp)
+	{
+		if (tmp->value > b_val && tmp->value < best_val)
+		{
+			best_val = tmp->value;
+			best_idx = tmp->curr_idx;
+		}
+		tmp = tmp->next;
+	}
+	if (best_idx != -1)
+		return (best_idx);
+	return (find_min_pos(a));
+}
+
+static void	rotate_both(t_node **a, t_node **b, int *ca, int *cb)
+{
+	while (*ca > 0 && *cb > 0)
+	{
+		rr(a, b, NULL);
+		(*ca)--;
+		(*cb)--;
+	}
+	while (*ca < 0 && *cb < 0)
+	{
+		rrr(a, b, NULL);
+		(*ca)++;
+		(*cb)++;
+	}
+}
+
+void	do_rotate(t_node **a, t_node **b, int *moves, t_info *bench)
+{
+	int	ca;
+	int	cb;
+
+	ca = moves[0];
+	cb = moves[1];
+	rotate_both(a, b, &ca, &cb);
+	while (ca > 0 && ca--)
+		ra(a, 1, bench);
+	while (ca < 0 && ca++)
+		rra(a, 1, bench);
+	while (cb > 0 && cb--)
+		rb(b, 1, bench);
+	while (cb < 0 && cb++)
+		rrb(b, 1, bench);
+}/* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   memory_ops.c                                       :+:      :+:    :+:   */
@@ -1267,7 +1283,7 @@ void	free_split(char **split)
 /*   By: muarici <muarici@student.42kocaeli.com.tr> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/16 18:00:00 by muarici           #+#    #+#             */
-/*   Updated: 2026/04/27 16:26:49 by muarici          ###   ########.fr       */
+/*   Updated: 2026/04/27 19:46:23 by muarici          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -1356,20 +1372,28 @@ void				simple_sort(t_node *a, t_node *b, t_info *bench);
 void				medium_sort(t_node *a, t_node *b, t_info *bench);
 void				complex_sort(t_node *a, t_node *b, t_info *bench);
 
-int                 handle_small_size(t_node *a, t_node *b, int size, t_info *bench);
+int					get_cost(int size, int idx);
+int					get_target_pos(t_node *a, int b_val);
+void				do_rotate(t_node **a, t_node **b, int *moves,
+						t_info *bench);
+
+int					handle_small_size(t_node *a, t_node *b, int size,
+						t_info *bench);
 
 float				compute_disorder(t_node *a);
 void				execute_adaptive_sort(t_node *a, t_node *b, t_info *bench);
 void				run_strategy(t_node *a, t_node *b, t_strategy strat,
 						t_info *bench);
 
+int					parse_and_fill_all(t_node **a, int argc, char **argv,
+						int i);
+
 void				print_stack(char *name, t_node *stack);
 void				print_bench(t_info *bench);
 
 int					ft_strncmp(const char *s1, const char *s2, size_t n);
 
-#endif
-NAME = push_swap
+#endifNAME = push_swap
 
 CC = gcc
 
@@ -1377,10 +1401,12 @@ CFLAGS = -Wall -Wextra -Werror
 
 RM = rm -f
 
-SRCS = main.c utils.c node_ops.c stack_ops.c rotate_ops.c parsing.c \
-		io_ops.c init_stack.c special_ops.c split_ops.c index_calc.c \
-		simple.c hard_code.c disorder.c adaptive.c medium.c complex.c \
-		string_ops.c memory_ops.c
+SRCS = main.c \
+       parsing.c init_stack.c node_ops.c stack_ops.c rotate_ops.c special_ops.c \
+       utils.c memory_ops.c string_ops.c split_ops.c index_calc.c disorder.c \
+       adaptive.c simple.c medium.c complex.c hard_code.c \
+	   medium_utils.c \
+	   io_ops.c
 
 OBJS = $(SRCS:.c=.o)
 
@@ -1401,40 +1427,3 @@ fclean: clean
 re: fclean all
 
 .PHONY: all clean fclean re
-Setting locale to en_US
-adaptive.c: OK!
-complex.c: OK!
-disorder.c: OK!
-hard_code.c: OK!
-index_calc.c: OK!
-init_stack.c: OK!
-io_ops.c: OK!
-main.c: Error!
-Error: TOO_MANY_VARS_FUNC   (line:  85, col:   1):	[91mToo many variables declarations in a function[0m
-Error: TOO_MANY_LINES       (line: 128, col:   1):	Function has more than 25 lines
-medium.c: Error!
-Error: TOO_MANY_LINES       (line:  55, col:   1):	Function has more than 25 lines
-Error: TOO_MANY_ARGS        (line:  57, col:  77):	[91mFunction has more than 4 arguments[0m
-Error: TOO_MANY_LINES       (line:  91, col:   1):	Function has more than 25 lines
-Error: TOO_MANY_VARS_FUNC   (line: 100, col:   1):	[91mToo many variables declarations in a function[0m
-Error: TOO_MANY_VARS_FUNC   (line: 101, col:   1):	[91mToo many variables declarations in a function[0m
-Error: TOO_MANY_VARS_FUNC   (line: 102, col:   1):	[91mToo many variables declarations in a function[0m
-Error: TOO_MANY_LINES       (line: 126, col:   1):	Function has more than 25 lines
-Error: TOO_MANY_FUNCS       (line: 154, col:   1):	[92mToo many functions in file[0m
-Error: TOO_MANY_FUNCS       (line: 181, col:   1):	[92mToo many functions in file[0m
-Error: SPACE_REPLACE_TAB    (line: 185, col:   8):	Found space when expecting tab
-Error: MISALIGNED_VAR_DECL  (line: 185, col:   9):	Misaligned variable declaration
-node_ops.c: OK!
-parsing.c: OK!
-push_swap.h: Error!
-Error: CONSECUTIVE_SPC      (line:  98, col:   4):	[94mTwo or more consecutives spaces[0m
-Error: SPACE_REPLACE_TAB    (line:  98, col:   4):	Found space when expecting tab
-Error: LINE_TOO_LONG        (line:  98, col:  84):	[94mline too long[0m
-rotate_ops.c: OK!
-simple.c: OK!
-special_ops.c: OK!
-split_ops.c: OK!
-stack_ops.c: OK!
-utils.c: OK!
-string_ops.c: OK!
-memory_ops.c: OK!

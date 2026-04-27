@@ -6,11 +6,30 @@
 /*   By: muarici <muarici@student.42kocaeli.com.tr> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/01 15:46:40 by muarici           #+#    #+#             */
-/*   Updated: 2026/04/27 17:23:26 by muarici          ###   ########.fr       */
+/*   Updated: 2026/04/27 19:45:18 by muarici          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
+
+static char	parse_flag(char *arg)
+{
+	if (!arg)
+		return ('N');
+	if (ft_strncmp(arg, "-b", 2) == 0 || ft_strncmp(arg, "--bench", 7) == 0)
+		return ('B');
+	if (ft_strncmp(arg, "-s", 2) == 0 || ft_strncmp(arg, "--simple", 8) == 0)
+		return ('S');
+	if (ft_strncmp(arg, "-m", 2) == 0 || ft_strncmp(arg, "--medium", 8) == 0)
+		return ('M');
+	if (ft_strncmp(arg, "-c", 2) == 0 || ft_strncmp(arg, "--complex", 9) == 0)
+		return ('C');
+	if (ft_strncmp(arg, "-a", 2) == 0 || ft_strncmp(arg, "--adaptive", 10) == 0)
+		return ('A');
+	if (arg[0] == '-')
+		return ('E');
+	return ('N');
+}
 
 static int	cleanup_and_exit(t_node **a, t_info *bench, int status)
 {

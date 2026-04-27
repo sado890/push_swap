@@ -6,7 +6,7 @@
 /*   By: muarici <muarici@student.42kocaeli.com.tr> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/24 00:12:45 by muarici           #+#    #+#             */
-/*   Updated: 2026/04/27 16:51:19 by muarici          ###   ########.fr       */
+/*   Updated: 2026/04/27 19:52:29 by muarici          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ static void	radix_sort(t_node **a, t_node **b, int size, t_info *bench)
 	int	j;
 
 	max_bits = 0;
-	while ((size >> max_bits) != 0)
+	while (((size - 1) >> max_bits) != 0)
 		max_bits++;
 	i = 0;
 	while (i < max_bits)
@@ -57,12 +57,15 @@ static void	radix_sort(t_node **a, t_node **b, int size, t_info *bench)
 void	complex_sort(t_node *a, t_node *b, t_info *bench)
 {
 	int	size;
-	int	i;
 
 	set_current_and_target_idx(a);
 	size = (int)stack_len(a);
-	i = handle_small_size(a, b, size, bench);
-	if (i != -1)
+	if (handle_small_size(a, b, size, bench) != -1)
 		return ;
+	if (size <= 100)
+	{
+		medium_sort(a, b, bench);
+		return ;
+	}
 	radix_sort(&a, &b, size, bench);
 }

@@ -6,7 +6,7 @@
 /*   By: muarici <muarici@student.42kocaeli.com.tr> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/16 18:00:00 by muarici           #+#    #+#             */
-/*   Updated: 2026/04/27 17:18:47 by muarici          ###   ########.fr       */
+/*   Updated: 2026/04/27 19:46:23 by muarici          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,6 +95,11 @@ void				simple_sort(t_node *a, t_node *b, t_info *bench);
 void				medium_sort(t_node *a, t_node *b, t_info *bench);
 void				complex_sort(t_node *a, t_node *b, t_info *bench);
 
+int					get_cost(int size, int idx);
+int					get_target_pos(t_node *a, int b_val);
+void				do_rotate(t_node **a, t_node **b, int *moves,
+						t_info *bench);
+
 int					handle_small_size(t_node *a, t_node *b, int size,
 						t_info *bench);
 
@@ -102,6 +107,9 @@ float				compute_disorder(t_node *a);
 void				execute_adaptive_sort(t_node *a, t_node *b, t_info *bench);
 void				run_strategy(t_node *a, t_node *b, t_strategy strat,
 						t_info *bench);
+
+int					parse_and_fill_all(t_node **a, int argc, char **argv,
+						int i);
 
 void				print_stack(char *name, t_node *stack);
 void				print_bench(t_info *bench);

@@ -1,0 +1,396 @@
+-------------------------------------------------------------
+
+
+                  Multiple size <= 500
+
+-------------------------------------------------------------
+
+1 .[OK][OK][5/5] Moves:4729
+Error
+2 .[KO]Error
+ Moves:0
+3 .[OK][OK][4/5] Moves:6784
+4 .[OK][OK][5/5] Moves:4781
+5 .[OK][OK][5/5] Moves:4859
+Error
+6 .[KO]Error
+ Moves:0
+7 .[OK][OK][4/5] Moves:6784
+8 .[OK][OK][4/5] Moves:6784
+Error
+9 .[KO]Error
+ Moves:0
+10 .[OK][OK][5/5] Moves:4782
+11 .[OK][OK][5/5] Moves:4473
+12 .[OK][OK][4/5] Moves:6784
+13 .[OK][OK][4/5] Moves:6784
+Error
+14 .[KO]Error
+ Moves:0
+15 .[OK][OK][4/5] Moves:6784
+Error
+16 .[KO]Error
+ Moves:0
+Error
+17 .[KO]Error
+ Moves:0
+18 .[OK][OK][4/5] Moves:6784
+19 .[OK][OK][5/5] Moves:4772
+Error
+20 .[KO]Error
+ Moves:0
+21 .[OK][OK][4/5] Moves:6784
+22 .[OK][OK][4/5] Moves:6784
+Error
+23 .[KO]Error
+ Moves:0
+24 .[OK][OK][4/5] Moves:6784
+Error
+25 .[KO]Error
+ Moves:0
+Error
+26 .[KO]Error
+ Moves:0
+27 .[OK][OK][5/5] Moves:4818
+28 .[OK][OK][4/5] Moves:6784
+Error
+29 .[KO]Error
+ Moves:0
+30 .[OK][OK][4/5] Moves:6784
+31 .[OK][OK][4/5] Moves:6784
+32 .[OK][OK][4/5] Moves:6784
+Error
+33 .[KO]Error
+ Moves:0
+34 .[OK][OK][5/5] Moves:4754
+35 .[OK][OK][5/5] Moves:4881
+Error
+36 .[KO]Error
+ Moves:0
+37 .[OK][OK][5/5] Moves:4593
+Error
+38 .[KO]Error
+ Moves:0
+Error
+39 .[KO]Error
+ Moves:0
+Error
+40 .[KO]Error
+ Moves:0
+Error
+41 .[KO]Error
+ Moves:0
+42 .[OK][OK][5/5] Moves:4792
+Error
+43 .[KO]Error
+ Moves:0
+Error
+44 .[KO]Error
+ Moves:0
+Error
+45 .[KO]Error
+ Moves:0
+46 .[OK][OK][5/5] Moves:4942
+Error
+47 .[KO]Error
+ Moves:0
+Error
+48 .[KO]Error
+ Moves:0
+Error
+49 .[KO]Error
+ Moves:0
+Error
+50 .[KO]Error
+ Moves:0
+51 .[OK][OK][5/5] Moves:4588
+Error
+52 .[KO]Error
+ Moves:0
+53 .[OK][OK][4/5] Moves:6784
+54 .[OK][OK][5/5] Moves:4787
+55 .[OK][OK][4/5] Moves:6784
+56 .[OK][OK][5/5] Moves:4571
+Error
+57 .[KO]Error
+ Moves:0
+58 .[OK][OK][5/5] Moves:4629
+59 .[OK][OK][5/5] Moves:4799
+60 .[OK][OK][5/5] Moves:4562
+61 .[OK][OK][5/5] Moves:4625
+62 .[OK][OK][4/5] Moves:6784
+Error
+63 .[KO]Error
+ Moves:0
+64 .[OK][OK][5/5] Moves:4572
+65 .[OK][OK][4/5] Moves:6784
+66 .[OK][OK][4/5] Moves:6784
+Error
+67 .[KO]Error
+ Moves:0
+68 .[OK][OK][4/5] Moves:6784
+Error
+69 .[KO]Error
+ Moves:0
+Error
+70 .[KO]Error
+ Moves:0
+71 .[OK][OK][4/5] Moves:6784
+Error
+72 .[KO]Error
+ Moves:0
+73 .[OK][OK][4/5] Moves:6784
+Error
+74 .[KO]Error
+ Moves:0
+75 .[OK][OK][4/5] Moves:6784
+Error
+76 .[KO]Error
+ Moves:0
+77 .[OK][OK][4/5] Moves:6784
+78 .[OK][OK][4/5] Moves:6784
+Error
+79 .[KO]Error
+ Moves:0
+Error
+80 .[KO]Error
+ Moves:0
+81 .[OK][OK][5/5] Moves:4574
+Error
+82 .[KO]Error
+ Moves:0
+Error
+83 .[KO]Error
+ Moves:0
+84 .[OK][OK][5/5] Moves:4875
+85 .[OK][OK][4/5] Moves:6784
+86 .[OK][OK][4/5] Moves:6784
+87 .[OK][OK][4/5] Moves:6784
+Error
+88 .[KO]Error
+ Moves:0
+Error
+89 .[KO]Error
+ Moves:0
+90 .[OK][OK][4/5] Moves:6784
+Error
+91 .[KO]Error
+ Moves:0
+92 .[OK][OK][5/5] Moves:4664
+Error
+93 .[KO]Error
+ Moves:0
+Error
+94 .[KO]Error
+ Moves:0
+95 .[OK][OK][4/5] Moves:6784
+Error
+96 .[KO]Error
+ Moves:0
+Error
+97 .[KO]Error
+ Moves:0
+Error
+98 .[KO]Error
+ Moves:0
+99 .[OK][OK][4/5] Moves:6784
+100 .[OK][OK][4/5] Moves:6784
+101 .[OK][OK][5/5] Moves:4655
+Error
+102 .[KO]Error
+ Moves:0
+Error
+103 .[KO]Error
+ Moves:0
+104 .[OK][OK][4/5] Moves:6784
+105 .[OK][OK][4/5] Moves:6784
+106 .[OK][OK][5/5] Moves:4852
+Error
+107 .[KO]Error
+ Moves:0
+108 .[OK][OK][5/5] Moves:4780
+Error
+109 .[KO]Error
+ Moves:0
+110 .[OK][OK][5/5] Moves:4694
+111 .[OK][OK][5/5] Moves:4691
+Error
+112 .[KO]Error
+ Moves:0
+113 .[OK][OK][5/5] Moves:4686
+114 .[OK][OK][4/5] Moves:6784
+Error
+115 .[KO]Error
+ Moves:0
+116 .[OK][OK][4/5] Moves:6784
+117 .[OK][OK][4/5] Moves:6784
+118 .[OK][OK][5/5] Moves:4698
+119 .[OK][OK][4/5] Moves:6784
+Error
+120 .[KO]Error
+ Moves:0
+121 .[OK][OK][4/5] Moves:6784
+Error
+122 .[KO]Error
+ Moves:0
+123 .[OK][OK][5/5] Moves:4708
+124 .[OK][OK][5/5] Moves:4775
+125 .[OK][OK][5/5] Moves:4763
+126 .[OK][OK][4/5] Moves:6784
+127 .[OK][OK][4/5] Moves:6784
+128 .[OK][OK][5/5] Moves:4705
+Error
+129 .[KO]Error
+ Moves:0
+Error
+130 .[KO]Error
+ Moves:0
+Error
+131 .[KO]Error
+ Moves:0
+Error
+132 .[KO]Error
+ Moves:0
+133 .[OK][OK][5/5] Moves:4621
+134 .[OK][OK][4/5] Moves:6784
+135 .[OK][OK][5/5] Moves:4590
+136 .[OK][OK][4/5] Moves:6784
+Error
+137 .[KO]Error
+ Moves:0
+138 .[OK][OK][5/5] Moves:4677
+139 .[OK][OK][5/5] Moves:4810
+Error
+140 .[KO]Error
+ Moves:0
+Error
+141 .[KO]Error
+ Moves:0
+Error
+142 .[KO]Error
+ Moves:0
+143 .[OK][OK][5/5] Moves:4722
+144 .[OK][OK][5/5] Moves:4667
+Error
+145 .[KO]Error
+ Moves:0
+146 .[OK][OK][5/5] Moves:4556
+Error
+147 .[KO]Error
+ Moves:0
+148 .[OK][OK][4/5] Moves:6784
+149 .[OK][OK][4/5] Moves:6784
+Error
+150 .[KO]Error
+ Moves:0
+Error
+151 .[KO]Error
+ Moves:0
+Error
+152 .[KO]Error
+ Moves:0
+Error
+153 .[KO]Error
+ Moves:0
+154 .[OK][OK][5/5] Moves:4580
+Error
+155 .[KO]Error
+ Moves:0
+156 .[OK][OK][4/5] Moves:6784
+157 .[OK][OK][5/5] Moves:4582
+158 .[OK][OK][4/5] Moves:6784
+Error
+159 .[KO]Error
+ Moves:0
+160 .[OK][OK][5/5] Moves:4888
+161 .[OK][OK][4/5] Moves:6784
+162 .[OK][OK][4/5] Moves:6784
+163 .[OK][OK][4/5] Moves:6784
+Error
+164 .[KO]Error
+ Moves:0
+165 .[OK][OK][5/5] Moves:4664
+Error
+166 .[KO]Error
+ Moves:0
+167 .[OK][OK][5/5] Moves:4589
+Error
+168 .[KO]Error
+ Moves:0
+169 .[OK][OK][4/5] Moves:6784
+Error
+170 .[KO]Error
+ Moves:0
+Error
+171 .[KO]Error
+ Moves:0
+Error
+172 .[KO]Error
+ Moves:0
+173 .[OK][OK][4/5] Moves:6784
+174 .[OK][OK][5/5] Moves:4628
+175 .[OK][OK][4/5] Moves:6784
+176 .[OK][OK][5/5] Moves:4558
+177 .[OK][OK][5/5] Moves:4457
+Error
+178 .[KO]Error
+ Moves:0
+Error
+179 .[KO]Error
+ Moves:0
+Error
+180 .[KO]Error
+ Moves:0
+181 .[OK][OK][5/5] Moves:4442
+182 .[OK][OK][5/5] Moves:4720
+183 .[OK][OK][5/5] Moves:4640
+Error
+184 .[KO]Error
+ Moves:0
+Error
+185 .[KO]Error
+ Moves:0
+Error
+186 .[KO]Error
+ Moves:0
+Error
+187 .[KO]Error
+ Moves:0
+Error
+188 .[KO]Error
+ Moves:0
+189 .[OK][OK][4/5] Moves:6784
+190 .[OK][OK][4/5] Moves:6784
+191 .[OK][OK][4/5] Moves:6784
+Error
+192 .[KO]Error
+ Moves:0
+193 .[OK][OK][4/5] Moves:6784
+194 .[OK][OK][4/5] Moves:6784
+195 .[OK][OK][5/5] Moves:4696
+Error
+196 .[KO]Error
+ Moves:0
+Error
+197 .[KO]Error
+ Moves:0
+198 .[OK][OK][5/5] Moves:4760
+Error
+199 .[KO]Error
+ Moves:0
+Error
+200 .[KO]Error
+ Moves:0
+Error
+201 .[KO]Error
+ Moves:0
+
+
+Max move: 6784
+Min move: 0
+Average: 3217
+
+
+Test [5/5] 54/201
+Test [4/5] 58/201
+Check traces /home/sadolee/Belgeler/GitHub/push_swap/traces.txt

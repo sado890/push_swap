@@ -6,7 +6,7 @@
 /*   By: muarici <muarici@student.42kocaeli.com.tr> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/24 03:03:40 by muarici           #+#    #+#             */
-/*   Updated: 2026/04/27 15:38:25 by muarici          ###   ########.fr       */
+/*   Updated: 2026/04/27 19:54:59 by muarici          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,11 +55,19 @@ t_node	*sort_4(t_node *a, t_node *b, t_info *bench)
 
 t_node	*sort_5(t_node *a, t_node *b, t_info *bench)
 {
+	int	len;
+
+	len = 5;
 	while (a->target_idx != 0)
-		ra(&a, 1, bench);
+	{
+		if (get_target_pos(a, 0) > len / 2)
+			rra(&a, 1, bench);
+		else
+			ra(&a, 1, bench);
+	}
 	pb(&b, &a, 1, bench);
 	set_current_and_target_idx(a);
-	sort_4(a, b, bench);
+	a = sort_4(a, b, bench);
 	pa(&a, &b, 1, bench);
 	set_current_and_target_idx(a);
 	return (a);

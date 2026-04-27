@@ -6,10 +6,12 @@ CFLAGS = -Wall -Wextra -Werror
 
 RM = rm -f
 
-SRCS = main.c utils.c node_ops.c stack_ops.c rotate_ops.c parsing.c \
-		io_ops.c init_stack.c special_ops.c split_ops.c index_calc.c \
-		simple.c hard_code.c disorder.c adaptive.c medium.c complex.c \
-		string_ops.c memory_ops.c medium_utils.c
+SRCS = main.c \
+       parsing.c init_stack.c node_ops.c stack_ops.c rotate_ops.c special_ops.c \
+       utils.c memory_ops.c string_ops.c split_ops.c index_calc.c disorder.c \
+       adaptive.c simple.c medium.c complex.c hard_code.c \
+	   medium_utils.c \
+	   io_ops.c
 
 OBJS = $(SRCS:.c=.o)
 

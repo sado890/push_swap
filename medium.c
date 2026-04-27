@@ -6,7 +6,7 @@
 /*   By: muarici <muarici@student.42kocaeli.com.tr> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/27 03:45:14 by muarici           #+#    #+#             */
-/*   Updated: 2026/04/27 17:18:38 by muarici          ###   ########.fr       */
+/*   Updated: 2026/04/27 20:06:25 by muarici          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,24 +35,35 @@ static void	push_back_cheapest(t_node **a, t_node **b, t_info *bench)
 		}
 		tmp = tmp->next;
 	}
-	do_rotate(a, b, move[0], move[1], bench);
+	do_rotate(a, b, move, bench);
 	pa(a, b, 1, bench);
 }
 
 static void	push_chunks(t_node **a, t_node **b, t_info *bench)
 {
+	int	size;
 	int	chunk;
 	int	pushed;
 
-	chunk = 30;
+	size = (int)stack_len(*a);
+
+	// 🔥 kritik fix: target indexleri set etmeden chunk yapma
+	set_current_and_target_idx(*a);
+
+	// 🔥 adaptive chunk (100 ve 500 ayrı)
+	if (size <= 100)
+		chunk = size / 6;
+	else
+		chunk = size / 11;
+
 	pushed = 0;
 	while (*a)
 	{
-		set_current_and_target_idx(*a);
 		if ((*a)->target_idx <= pushed)
 		{
 			pb(b, a, 1, bench);
-			rb(b, 1, bench);
+			if ((*b)->target_idx < pushed / 2)
+				rb(b, 1, bench);
 			pushed++;
 		}
 		else if ((*a)->target_idx <= pushed + chunk)
