@@ -1,0 +1,555 @@
+~/İndirilenler/push_swap 8s
+❯ sudo rm -rf ~/archroot
+
+~/İndirilenler/push_swap
+❯ sudo mkarchroot ~/archroot base-devel
+Create subvolume '/home/sadolee/archroot'
+==> Creating install root at /home/sadolee/archroot
+==> Installing packages to /home/sadolee/archroot
+:: Synchronizing package databases...
+ cachyos-v3                                                                                                     124,7 KiB   136 KiB/s 00:01 [-------------------------------------------------------------------------------------] 100%
+ cachyos-extra-v3                                                                                                 4,1 MiB   675 KiB/s 00:06 [-------------------------------------------------------------------------------------] 100%
+ cachyos-core-v3                                                                                                111,5 KiB   128 KiB/s 00:01 [-------------------------------------------------------------------------------------] 100%
+ cachyos                                                                                                        526,2 KiB   321 KiB/s 00:02 [-------------------------------------------------------------------------------------] 100%
+ core                                                                                                           124,7 KiB   133 KiB/s 00:01 [-------------------------------------------------------------------------------------] 100%
+ extra                                                                                                            8,2 MiB   946 KiB/s 00:09 [-------------------------------------------------------------------------------------] 100%
+ multilib                                                                                                       127,0 KiB   146 KiB/s 00:01 [-------------------------------------------------------------------------------------] 100%
+resolving dependencies...
+:: There are 2 providers available for libncursesw.so=6-64:
+:: Repository cachyos-core-v3
+   1) ncurses
+:: Repository core
+   2) ncurses
+
+Enter a number (default=1): 
+:: There are 2 providers available for libverto-module-base:
+:: Repository cachyos-core-v3
+   1) libverto
+:: Repository core
+   2) libverto
+
+Enter a number (default=1): 
+:: There are 2 providers available for libcrypt.so=2-64:
+:: Repository cachyos-core-v3
+   1) libxcrypt
+:: Repository core
+   2) libxcrypt
+
+Enter a number (default=1): 
+:: There are 2 providers available for libisl.so=23-64:
+:: Repository cachyos-core-v3
+   1) libisl
+:: Repository core
+   2) libisl
+
+Enter a number (default=1): 
+looking for conflicting packages...
+
+Package (144)                            New Version                 Net Change
+
+cachyos-core-v3/acl                      2.3.2-2.1                     0,33 MiB
+cachyos/archlinux-keyring                20260420-1                    1,72 MiB
+cachyos-core-v3/attr                     2.5.2-2.1                     0,21 MiB
+cachyos-core-v3/audit                    4.1.4-2.1                     1,04 MiB
+core/autoconf                            2.73-1                        2,25 MiB
+core/automake                            1.18.1-1                      1,64 MiB
+cachyos-v3/bash                          5.3.9-2                       9,53 MiB
+cachyos-v3/binutils                      2.46+r70+g155188ea10a7-2     45,31 MiB
+cachyos-core-v3/bison                    3.8.2-8.1                     2,62 MiB
+cachyos-core-v3/brotli                   1.2.0-1.1                     1,21 MiB
+cachyos-core-v3/bzip2                    1.0.8-6.1                     0,14 MiB
+core/ca-certificates                     20240618-1                    0,00 MiB
+cachyos-core-v3/ca-certificates-mozilla  3.123.1-1.1                   0,99 MiB
+core/ca-certificates-utils               20240618-1                    0,01 MiB
+cachyos-core-v3/coreutils                9.11-1.1                     29,12 MiB
+cachyos-core-v3/cryptsetup               2.8.6-1.1                     3,43 MiB
+cachyos-core-v3/curl                     8.20.0-3.1                    2,36 MiB
+cachyos-core-v3/db5.3                    5.3.28-7.1                    6,83 MiB
+cachyos-core-v3/dbus                     1.16.2-1.1                    0,97 MiB
+cachyos-core-v3/dbus-broker              37-3.1                        0,41 MiB
+cachyos-core-v3/dbus-broker-units        37-3.1                        0,00 MiB
+cachyos-core-v3/dbus-units               37-3.1                        0,00 MiB
+cachyos-core-v3/debugedit                5.2-1.1                       0,11 MiB
+cachyos-core-v3/device-mapper            2.03.40-1.1                   0,87 MiB
+cachyos-core-v3/diffutils                3.12-2.1                      1,51 MiB
+cachyos-core-v3/e2fsprogs                1.47.4-1.1                    5,39 MiB
+cachyos-core-v3/expat                    2.8.0-1.1                     0,49 MiB
+cachyos-core-v3/fakeroot                 1.37.2-1.1                    0,14 MiB
+cachyos-core-v3/file                     5.47-3.1                     10,41 MiB
+core/filesystem                          2025.10.12-1                  0,02 MiB
+cachyos-core-v3/findutils                4.10.0-3.1                    1,78 MiB
+cachyos-core-v3/flex                     2.6.4-6.1                     0,86 MiB
+cachyos-core-v3/gawk                     5.4.0-1.1                     4,19 MiB
+cachyos-core-v3/gc                       8.2.12-1.1                    0,79 MiB
+cachyos-v3/gcc                           16.1.1+r12+g301eb08fa2c5-2  228,16 MiB
+cachyos-v3/gcc-libs                      16.1.1+r12+g301eb08fa2c5-2    0,00 MiB
+cachyos-core-v3/gdbm                     1.26-2.1                      0,74 MiB
+cachyos-core-v3/gettext                  1.0-2.1                      21,15 MiB
+cachyos-core-v3/glib2                    2.88.0-1.1                   38,34 MiB
+cachyos-v3/glibc                         2.43+r22+g8362e8ce10b2-4     50,68 MiB
+cachyos-core-v3/gmp                      6.3.0-3.1                     1,14 MiB
+core/gnulib-l10n                         20241231-1                    0,61 MiB
+cachyos-core-v3/gnupg                    2.4.9-1.1                    11,00 MiB
+core/gnutls                              3.8.13-1                      8,12 MiB
+cachyos-core-v3/gpgme                    2.0.1-3.1                     0,82 MiB
+cachyos-core-v3/grep                     3.12-2.1                      0,90 MiB
+cachyos-core-v3/groff                    1.24.1-1.1                    9,35 MiB
+cachyos-core-v3/guile                    3.0.11-1.1                   54,64 MiB
+core/gzip                                1.14-2                        0,16 MiB
+core/hwdata                              0.406-1                       9,85 MiB
+core/iana-etc                            20260425-1                    4,01 MiB
+cachyos-core-v3/icu                      78.3-1.1                     43,80 MiB
+cachyos-core-v3/jansson                  2.15.0-1.1                    0,33 MiB
+cachyos-core-v3/json-c                   0.18-2.1                      0,18 MiB
+cachyos-core-v3/kbd                      2.9.0-1.1                     3,12 MiB
+cachyos-core-v3/keyutils                 1.6.3-4.1                     0,20 MiB
+core/kmod                                34.2-1                        0,33 MiB
+cachyos-core-v3/krb5                     1.21.3-2.1                    4,86 MiB
+cachyos-core-v3/leancrypto               1.7.2-1.1                     7,84 MiB
+cachyos-core-v3/libarchive               3.8.7-1.1                     1,52 MiB
+cachyos-v3/libasan                       16.1.1+r12+g301eb08fa2c5-2    2,18 MiB
+cachyos-core-v3/libassuan                3.0.0-1.1                     0,25 MiB
+cachyos-v3/libatomic                     16.1.1+r12+g301eb08fa2c5-2    0,04 MiB
+cachyos-core-v3/libcap                   2.78-1.1                      2,08 MiB
+cachyos-core-v3/libcap-ng                0.9.3-1.1                     0,17 MiB
+core/libelf                              0.194-2                       3,22 MiB
+cachyos-core-v3/libevent                 2.1.12-5.1                    1,22 MiB
+cachyos-core-v3/libffi                   3.5.2-1.1                     0,10 MiB
+cachyos-v3/libgcc                        16.1.1+r12+g301eb08fa2c5-2    0,21 MiB
+cachyos-core-v3/libgcrypt                1.12.2-1.1                    2,49 MiB
+cachyos-v3/libgfortran                   16.1.1+r12+g301eb08fa2c5-2    8,18 MiB
+cachyos-v3/libgomp                       16.1.1+r12+g301eb08fa2c5-2    0,51 MiB
+cachyos-core-v3/libgpg-error             1.60-1.1                      1,17 MiB
+cachyos-core-v3/libidn2                  2.3.8-1.1                     0,37 MiB
+cachyos-core-v3/libisl                   0.27-1.1                      5,74 MiB
+cachyos-core-v3/libksba                  1.6.8-1.1                     0,36 MiB
+core/libldap                             2.6.13-1                      0,66 MiB
+cachyos-v3/liblsan                       16.1.1+r12+g301eb08fa2c5-2    0,64 MiB
+core/libmakepkg-dropins                  20-1                          0,01 MiB
+cachyos-core-v3/libmpc                   1.4.1-1.1                     0,19 MiB
+cachyos-core-v3/libnghttp2               1.69.0-1.1                    0,41 MiB
+cachyos-core-v3/libnghttp3               1.15.0-1.1                    0,27 MiB
+cachyos-extra-v3/libngtcp2               1.22.1-1.1                    0,72 MiB
+cachyos-core-v3/libnsl                   2.0.1-1.1                     0,07 MiB
+cachyos-v3/libobjc                       16.1.1+r12+g301eb08fa2c5-2    0,11 MiB
+cachyos-core-v3/libp11-kit               0.26.2-1.1                    3,37 MiB
+cachyos-core-v3/libpsl                   0.21.5-2.1                    0,22 MiB
+cachyos-v3/libquadmath                   16.1.1+r12+g301eb08fa2c5-2    0,35 MiB
+cachyos-core-v3/libsasl                  2.1.28-5.1                    0,53 MiB
+cachyos-core-v3/libseccomp               2.6.0-1.1                     0,33 MiB
+cachyos-core-v3/libsecret                0.21.7-1.1                    1,17 MiB
+cachyos-core-v3/libssh2                  1.11.1-1.1                    0,52 MiB
+cachyos-v3/libstdc++                     16.1.1+r12+g301eb08fa2c5-2    3,17 MiB
+extra/libsysprof-capture                 50.0-2                        0,27 MiB
+cachyos-core-v3/libtasn1                 4.21.0-1.1                    0,28 MiB
+cachyos-core-v3/libtirpc                 1.3.7-1.1                     0,44 MiB
+core/libtool                             2.6.0+r23+gb08cb0a0-1         2,34 MiB
+cachyos-v3/libtsan                       16.1.1+r12+g301eb08fa2c5-2    1,72 MiB
+cachyos-v3/libubsan                      16.1.1+r12+g301eb08fa2c5-2    0,57 MiB
+cachyos-core-v3/libunistring             1.4.1-1.1                     2,78 MiB
+cachyos-core-v3/libusb                   1.0.29-1.1                    0,23 MiB
+cachyos-core-v3/libverto                 0.3.2-6.1                     0,07 MiB
+cachyos-core-v3/libxcrypt                4.5.2-1.1                     0,20 MiB
+cachyos-core-v3/libxml2                  2.15.3-1.1                    3,21 MiB
+cachyos-v3/linux-api-headers             1:7.0-1                       6,92 MiB
+cachyos-extra-v3/lmdb                    0.9.35-1.1                    0,45 MiB
+cachyos-v3/lz4                           1:1.10.0-3                    0,47 MiB
+cachyos-core-v3/m4                       1.4.21-2.1                    0,73 MiB
+cachyos-core-v3/make                     4.4.1-3.1                     1,72 MiB
+cachyos-core-v3/mpfr                     4.2.2-1.1                     1,03 MiB
+cachyos-core-v3/ncurses                  6.6-2.1                       4,20 MiB
+cachyos-core-v3/nettle                   3.10.2-1.1                    1,11 MiB
+cachyos-core-v3/npth                     1.8-1.1                       0,08 MiB
+cachyos-core-v3/openssl                  3.6.2-2.1                    13,01 MiB
+cachyos-core-v3/p11-kit                  0.26.2-1.1                    1,13 MiB
+cachyos/pacman                           7.1.0.r9.g54d9411-2          10,27 MiB
+core/pacman-mirrorlist                   20260406-1                    0,03 MiB
+cachyos-core-v3/pam                      1.7.2-2.1                     2,94 MiB
+core/pambase                             20250719-1                    0,00 MiB
+cachyos-core-v3/patch                    2.8-1.1                       0,18 MiB
+cachyos-core-v3/pcre2                    10.47-1.1                     7,69 MiB
+cachyos-core-v3/perl                     5.42.2-1.1                   60,61 MiB
+cachyos-core-v3/pinentry                 1.3.2-2.1                     0,78 MiB
+cachyos-core-v3/pkgconf                  2.5.1-1.1                     0,21 MiB
+cachyos-core-v3/popt                     1.19-2.1                      0,24 MiB
+cachyos-core-v3/readline                 8.3.003-1.1                   1,52 MiB
+cachyos-core-v3/sed                      4.10-1.1                      0,82 MiB
+cachyos-core-v3/shadow                   4.18.0-1.1                    3,96 MiB
+cachyos-v3/sqlite                        3.53.0-2                     17,83 MiB
+cachyos-core-v3/sudo                     1.9.17.p2-2.1                 8,10 MiB
+core/systemd                             260.1-2                      37,10 MiB
+core/systemd-libs                        260.1-2                       3,36 MiB
+cachyos-core-v3/tar                      1.35-2.1                      2,85 MiB
+cachyos-core-v3/texinfo                  7.3-1.1                      12,76 MiB
+cachyos-core-v3/tpm2-tss                 4.1.3-1.1                     3,56 MiB
+cachyos-core-v3/tzdata                   2026b-1.1                     1,67 MiB
+core/util-linux                          2.42-1                       18,59 MiB
+core/util-linux-libs                     2.42-1                        1,34 MiB
+cachyos-core-v3/which                    2.23-1.1                      0,03 MiB
+extra/xxhash                             0.8.3-1                       0,39 MiB
+cachyos-v3/xz                            5.8.3-1                       1,78 MiB
+cachyos-core-v3/zlib                     1:1.3.2-3.1                   0,23 MiB
+cachyos-v3/zstd                          1.5.7-2                       1,73 MiB
+core/base-devel                          1-2                           0,00 MiB
+
+Total Installed Size:  923,07 MiB
+
+:: Proceed with installation? [Y/n] 
+(144/144) checking keys in keyring                                                                                                          [-------------------------------------------------------------------------------------] 100%
+(144/144) checking package integrity                                                                                                        [-------------------------------------------------------------------------------------] 100%
+(144/144) loading package files                                                                                                             [-------------------------------------------------------------------------------------] 100%
+(144/144) checking for file conflicts                                                                                                       [-------------------------------------------------------------------------------------] 100%
+:: Processing package changes...
+(  1/144) installing linux-api-headers                                                                                                      [-------------------------------------------------------------------------------------] 100%
+(  2/144) installing tzdata                                                                                                                 [-------------------------------------------------------------------------------------] 100%
+Optional dependencies for tzdata
+    bash: for tzselect [pending]
+    glibc: for zdump, zic [pending]
+(  3/144) installing iana-etc                                                                                                               [-------------------------------------------------------------------------------------] 100%
+(  4/144) installing filesystem                                                                                                             [-------------------------------------------------------------------------------------] 100%
+(  5/144) installing glibc                                                                                                                  [-------------------------------------------------------------------------------------] 100%
+Optional dependencies for glibc
+    gd: for memusagestat
+    perl: for mtrace [pending]
+(  6/144) installing libgcc                                                                                                                 [-------------------------------------------------------------------------------------] 100%
+(  7/144) installing libstdc++                                                                                                              [-------------------------------------------------------------------------------------] 100%
+(  8/144) installing ncurses                                                                                                                [-------------------------------------------------------------------------------------] 100%
+Optional dependencies for ncurses
+    bash: for ncursesw6-config [pending]
+(  9/144) installing readline                                                                                                               [-------------------------------------------------------------------------------------] 100%
+( 10/144) installing bash                                                                                                                   [-------------------------------------------------------------------------------------] 100%
+Optional dependencies for bash
+    bash-completion: for tab completion
+( 11/144) installing acl                                                                                                                    [-------------------------------------------------------------------------------------] 100%
+( 12/144) installing attr                                                                                                                   [-------------------------------------------------------------------------------------] 100%
+( 13/144) installing gmp                                                                                                                    [-------------------------------------------------------------------------------------] 100%
+( 14/144) installing zlib                                                                                                                   [-------------------------------------------------------------------------------------] 100%
+( 15/144) installing sqlite                                                                                                                 [-------------------------------------------------------------------------------------] 100%
+( 16/144) installing util-linux-libs                                                                                                        [-------------------------------------------------------------------------------------] 100%
+Optional dependencies for util-linux-libs
+    python: python bindings to libmount
+( 17/144) installing e2fsprogs                                                                                                              [-------------------------------------------------------------------------------------] 100%
+Optional dependencies for e2fsprogs
+    lvm2: for e2scrub
+    util-linux: for e2scrub [pending]
+    smtp-forwarder: for e2scrub_fail script
+( 18/144) installing keyutils                                                                                                               [-------------------------------------------------------------------------------------] 100%
+( 19/144) installing gdbm                                                                                                                   [-------------------------------------------------------------------------------------] 100%
+( 20/144) installing brotli                                                                                                                 [-------------------------------------------------------------------------------------] 100%
+( 21/144) installing libasan                                                                                                                [-------------------------------------------------------------------------------------] 100%
+( 22/144) installing libatomic                                                                                                              [-------------------------------------------------------------------------------------] 100%
+( 23/144) installing libgfortran                                                                                                            [-------------------------------------------------------------------------------------] 100%
+( 24/144) installing libgomp                                                                                                                [-------------------------------------------------------------------------------------] 100%
+( 25/144) installing liblsan                                                                                                                [-------------------------------------------------------------------------------------] 100%
+( 26/144) installing libobjc                                                                                                                [-------------------------------------------------------------------------------------] 100%
+( 27/144) installing libquadmath                                                                                                            [-------------------------------------------------------------------------------------] 100%
+( 28/144) installing libtsan                                                                                                                [-------------------------------------------------------------------------------------] 100%
+( 29/144) installing libubsan                                                                                                               [-------------------------------------------------------------------------------------] 100%
+( 30/144) installing gcc-libs                                                                                                               [-------------------------------------------------------------------------------------] 100%
+( 31/144) installing xz                                                                                                                     [-------------------------------------------------------------------------------------] 100%
+( 32/144) installing lz4                                                                                                                    [-------------------------------------------------------------------------------------] 100%
+( 33/144) installing zstd                                                                                                                   [-------------------------------------------------------------------------------------] 100%
+( 34/144) installing openssl                                                                                                                [-------------------------------------------------------------------------------------] 100%
+Optional dependencies for openssl
+    ca-certificates [pending]
+    perl [pending]
+( 35/144) installing libsasl                                                                                                                [-------------------------------------------------------------------------------------] 100%
+( 36/144) installing libldap                                                                                                                [-------------------------------------------------------------------------------------] 100%
+( 37/144) installing libevent                                                                                                               [-------------------------------------------------------------------------------------] 100%
+Optional dependencies for libevent
+    python: event_rpcgen.py
+( 38/144) installing libverto                                                                                                               [-------------------------------------------------------------------------------------] 100%
+( 39/144) installing lmdb                                                                                                                   [-------------------------------------------------------------------------------------] 100%
+( 40/144) installing krb5                                                                                                                   [-------------------------------------------------------------------------------------] 100%
+( 41/144) installing libcap-ng                                                                                                              [-------------------------------------------------------------------------------------] 100%
+( 42/144) installing audit                                                                                                                  [-------------------------------------------------------------------------------------] 100%
+Optional dependencies for audit
+    audispd-plugins: for audit event dispatcher plugins
+    audispd-plugins-zos: for z/OS audit event dispatcher plugin
+( 43/144) installing libxcrypt                                                                                                              [-------------------------------------------------------------------------------------] 100%
+( 44/144) installing libtirpc                                                                                                               [-------------------------------------------------------------------------------------] 100%
+( 45/144) installing libnsl                                                                                                                 [-------------------------------------------------------------------------------------] 100%
+( 46/144) installing pambase                                                                                                                [-------------------------------------------------------------------------------------] 100%
+( 47/144) installing libgpg-error                                                                                                           [-------------------------------------------------------------------------------------] 100%
+( 48/144) installing libgcrypt                                                                                                              [-------------------------------------------------------------------------------------] 100%
+( 49/144) installing systemd-libs                                                                                                           [-------------------------------------------------------------------------------------] 100%
+( 50/144) installing pam                                                                                                                    [-------------------------------------------------------------------------------------] 100%
+( 51/144) installing libcap                                                                                                                 [-------------------------------------------------------------------------------------] 100%
+( 52/144) installing coreutils                                                                                                              [-------------------------------------------------------------------------------------] 100%
+( 53/144) installing findutils                                                                                                              [-------------------------------------------------------------------------------------] 100%
+( 54/144) installing libtasn1                                                                                                               [-------------------------------------------------------------------------------------] 100%
+( 55/144) installing libffi                                                                                                                 [-------------------------------------------------------------------------------------] 100%
+( 56/144) installing libp11-kit                                                                                                             [-------------------------------------------------------------------------------------] 100%
+( 57/144) installing p11-kit                                                                                                                [-------------------------------------------------------------------------------------] 100%
+( 58/144) installing ca-certificates-utils                                                                                                  [-------------------------------------------------------------------------------------] 100%
+( 59/144) installing ca-certificates-mozilla                                                                                                [-------------------------------------------------------------------------------------] 100%
+( 60/144) installing ca-certificates                                                                                                        [-------------------------------------------------------------------------------------] 100%
+( 61/144) installing libunistring                                                                                                           [-------------------------------------------------------------------------------------] 100%
+( 62/144) installing libidn2                                                                                                                [-------------------------------------------------------------------------------------] 100%
+( 63/144) installing libnghttp2                                                                                                             [-------------------------------------------------------------------------------------] 100%
+( 64/144) installing libnghttp3                                                                                                             [-------------------------------------------------------------------------------------] 100%
+( 65/144) installing nettle                                                                                                                 [-------------------------------------------------------------------------------------] 100%
+( 66/144) installing leancrypto                                                                                                             [-------------------------------------------------------------------------------------] 100%
+( 67/144) installing gnutls                                                                                                                 [-------------------------------------------------------------------------------------] 100%
+Optional dependencies for gnutls
+    tpm2-tss: support for TPM2 wrapped keys [pending]
+( 68/144) installing libngtcp2                                                                                                              [-------------------------------------------------------------------------------------] 100%
+( 69/144) installing libpsl                                                                                                                 [-------------------------------------------------------------------------------------] 100%
+( 70/144) installing libssh2                                                                                                                [-------------------------------------------------------------------------------------] 100%
+( 71/144) installing curl                                                                                                                   [-------------------------------------------------------------------------------------] 100%
+( 72/144) installing mpfr                                                                                                                   [-------------------------------------------------------------------------------------] 100%
+( 73/144) installing gawk                                                                                                                   [-------------------------------------------------------------------------------------] 100%
+( 74/144) installing json-c                                                                                                                 [-------------------------------------------------------------------------------------] 100%
+( 75/144) installing gnulib-l10n                                                                                                            [-------------------------------------------------------------------------------------] 100%
+( 76/144) installing icu                                                                                                                    [-------------------------------------------------------------------------------------] 100%
+( 77/144) installing libxml2                                                                                                                [-------------------------------------------------------------------------------------] 100%
+Optional dependencies for libxml2
+    python: Python bindings
+( 78/144) installing gettext                                                                                                                [-------------------------------------------------------------------------------------] 100%
+Optional dependencies for gettext
+    git: for autopoint infrastructure updates
+    appstream: for appstream support
+( 79/144) installing libksba                                                                                                                [-------------------------------------------------------------------------------------] 100%
+( 80/144) installing libusb                                                                                                                 [-------------------------------------------------------------------------------------] 100%
+( 81/144) installing libassuan                                                                                                              [-------------------------------------------------------------------------------------] 100%
+( 82/144) installing libsysprof-capture                                                                                                     [-------------------------------------------------------------------------------------] 100%
+( 83/144) installing bzip2                                                                                                                  [-------------------------------------------------------------------------------------] 100%
+( 84/144) installing pcre2                                                                                                                  [-------------------------------------------------------------------------------------] 100%
+Optional dependencies for pcre2
+    sh: for pcre2-config [installed]
+( 85/144) installing glib2                                                                                                                  [-------------------------------------------------------------------------------------] 100%
+Optional dependencies for glib2
+    dconf: GSettings storage backend
+    glib2-devel: development tools
+    gvfs: most gio functionality
+( 86/144) installing tpm2-tss                                                                                                               [-------------------------------------------------------------------------------------] 100%
+( 87/144) installing libsecret                                                                                                              [-------------------------------------------------------------------------------------] 100%
+Optional dependencies for libsecret
+    org.freedesktop.secrets: secret storage backend
+( 88/144) installing pinentry                                                                                                               [-------------------------------------------------------------------------------------] 100%
+Optional dependencies for pinentry
+    gcr: GNOME backend
+    gtk3: GTK backend
+    qt5-x11extras: Qt5 backend
+    kwayland5: Qt5 backend
+    kguiaddons: Qt6 backend
+    kwindowsystem: Qt6 backend
+( 89/144) installing npth                                                                                                                   [-------------------------------------------------------------------------------------] 100%
+( 90/144) installing gnupg                                                                                                                  [-------------------------------------------------------------------------------------] 100%
+Optional dependencies for gnupg
+    pcsclite: for using scdaemon not with the gnupg internal card driver
+( 91/144) installing gpgme                                                                                                                  [-------------------------------------------------------------------------------------] 100%
+( 92/144) installing grep                                                                                                                   [-------------------------------------------------------------------------------------] 100%
+( 93/144) installing libarchive                                                                                                             [-------------------------------------------------------------------------------------] 100%
+( 94/144) installing pacman-mirrorlist                                                                                                      [-------------------------------------------------------------------------------------] 100%
+( 95/144) installing device-mapper                                                                                                          [-------------------------------------------------------------------------------------] 100%
+( 96/144) installing popt                                                                                                                   [-------------------------------------------------------------------------------------] 100%
+( 97/144) installing cryptsetup                                                                                                             [-------------------------------------------------------------------------------------] 100%
+( 98/144) installing expat                                                                                                                  [-------------------------------------------------------------------------------------] 100%
+( 99/144) installing dbus                                                                                                                   [-------------------------------------------------------------------------------------] 100%
+(100/144) installing dbus-broker                                                                                                            [-------------------------------------------------------------------------------------] 100%
+(101/144) installing dbus-broker-units                                                                                                      [-------------------------------------------------------------------------------------] 100%
+(102/144) installing dbus-units                                                                                                             [-------------------------------------------------------------------------------------] 100%
+(103/144) installing sed                                                                                                                    [-------------------------------------------------------------------------------------] 100%
+(104/144) installing gzip                                                                                                                   [-------------------------------------------------------------------------------------] 100%
+Optional dependencies for gzip
+    less: zless support
+    util-linux: zmore support [pending]
+    diffutils: zdiff/zcmp support [pending]
+(105/144) installing kbd                                                                                                                    [-------------------------------------------------------------------------------------] 100%
+(106/144) installing kmod                                                                                                                   [-------------------------------------------------------------------------------------] 100%
+(107/144) installing hwdata                                                                                                                 [-------------------------------------------------------------------------------------] 100%
+(108/144) installing libelf                                                                                                                 [-------------------------------------------------------------------------------------] 100%
+(109/144) installing libseccomp                                                                                                             [-------------------------------------------------------------------------------------] 100%
+(110/144) installing file                                                                                                                   [-------------------------------------------------------------------------------------] 100%
+(111/144) installing shadow                                                                                                                 [-------------------------------------------------------------------------------------] 100%
+(112/144) installing util-linux                                                                                                             [-------------------------------------------------------------------------------------] 100%
+Optional dependencies for util-linux
+    words: default dictionary for look
+(113/144) installing systemd                                                                                                                [-------------------------------------------------------------------------------------] 100%
+Initializing machine ID from random generator.
+Creating group 'sys' with GID 3.
+Creating group 'mem' with GID 8.
+Creating group 'ftp' with GID 11.
+Creating group 'mail' with GID 12.
+Creating group 'log' with GID 19.
+Creating group 'smmsp' with GID 25.
+Creating group 'proc' with GID 26.
+Creating group 'games' with GID 50.
+Creating group 'lock' with GID 54.
+Creating group 'network' with GID 90.
+Creating group 'floppy' with GID 94.
+Creating group 'scanner' with GID 96.
+Creating group 'power' with GID 98.
+Creating group 'nobody' with GID 65534.
+Creating group 'adm' with GID 999.
+Creating group 'wheel' with GID 998.
+Creating group 'empower' with GID 997.
+Creating group 'utmp' with GID 996.
+Creating group 'audio' with GID 995.
+Creating group 'clock' with GID 994.
+Creating group 'disk' with GID 993.
+Creating group 'input' with GID 992.
+Creating group 'kmem' with GID 991.
+Creating group 'kvm' with GID 990.
+Creating group 'lp' with GID 989.
+Creating group 'optical' with GID 988.
+Creating group 'render' with GID 987.
+Creating group 'sgx' with GID 986.
+Creating group 'storage' with GID 985.
+Creating group 'tty' with GID 5.
+Creating group 'uucp' with GID 984.
+Creating group 'video' with GID 983.
+Creating group 'users' with GID 982.
+Creating group 'groups' with GID 981.
+Creating group 'systemd-journal' with GID 980.
+Creating group 'rfkill' with GID 979.
+Creating group 'bin' with GID 1.
+Creating user 'bin' (n/a) with UID 1 and GID 1.
+Creating group 'daemon' with GID 2.
+Creating user 'daemon' (n/a) with UID 2 and GID 2.
+Creating user 'mail' (n/a) with UID 8 and GID 12.
+Creating user 'ftp' (n/a) with UID 14 and GID 11.
+Creating group 'http' with GID 33.
+Creating user 'http' (n/a) with UID 33 and GID 33.
+Creating user 'nobody' (Kernel Overflow User) with UID 65534 and GID 65534.
+Creating group 'dbus' with GID 81.
+Creating user 'dbus' (System Message Bus) with UID 81 and GID 81.
+Creating group 'systemd-coredump' with GID 978.
+Creating user 'systemd-coredump' (systemd Core Dumper) with UID 978 and GID 978.
+Creating group 'systemd-network' with GID 977.
+Creating user 'systemd-network' (systemd Network Management) with UID 977 and GID 977.
+Creating group 'systemd-oom' with GID 976.
+Creating user 'systemd-oom' (systemd Userspace OOM Killer) with UID 976 and GID 976.
+Creating group 'systemd-journal-remote' with GID 975.
+Creating user 'systemd-journal-remote' (systemd Journal Remote) with UID 975 and GID 975.
+Creating group 'systemd-resolve' with GID 974.
+Creating user 'systemd-resolve' (systemd Resolver) with UID 974 and GID 974.
+Creating group 'systemd-timesync' with GID 973.
+Creating user 'systemd-timesync' (systemd Time Synchronization) with UID 973 and GID 973.
+Creating group 'tss' with GID 972.
+Creating user 'tss' (tss user for tpm2) with UID 972 and GID 972.
+Creating group 'uuidd' with GID 971.
+Creating user 'uuidd' (UUID generator helper daemon) with UID 971 and GID 971.
+Created symlink '/etc/systemd/system/autovt@.service' → '/usr/lib/systemd/system/getty@.service'.
+Created symlink '/etc/systemd/system/getty.target.wants/getty@tty1.service' → '/usr/lib/systemd/system/getty@.service'.
+Created symlink '/etc/systemd/system/multi-user.target.wants/remote-fs.target' → '/usr/lib/systemd/system/remote-fs.target'.
+Created symlink '/etc/systemd/system/sockets.target.wants/systemd-userdbd.socket' → '/usr/lib/systemd/system/systemd-userdbd.socket'.
+Optional dependencies for systemd
+    libmicrohttpd: systemd-journal-gatewayd and systemd-journal-remote
+    apparmor: additional security features
+    quota-tools: kernel-level quota management
+    systemd-sysvcompat: symlink package to provide sysvinit binaries
+    systemd-ukify: combine kernel and initrd into a signed Unified Kernel Image
+    polkit: allow administration as unprivileged user
+    curl: systemd-journal-upload, machinectl pull-tar and pull-raw [installed]
+    gnutls: systemd-journal-gatewayd and systemd-journal-remote [installed]
+    qrencode: show QR codes
+    iptables: firewall features
+    libarchive: convert DDIs to tarballs [installed]
+    libbpf: support BPF programs
+    libpwquality: check password quality
+    libfido2: unlocking LUKS2 volumes with FIDO2 token
+    libp11-kit: support PKCS#11 [installed]
+    tpm2-tss: unlocking LUKS2 volumes with TPM2 [installed]
+(114/144) installing jansson                                                                                                                [-------------------------------------------------------------------------------------] 100%
+(115/144) installing binutils                                                                                                               [-------------------------------------------------------------------------------------] 100%
+Optional dependencies for binutils
+    debuginfod: for debuginfod server/client functionality
+    perl: for gprofng-display-html [pending]
+(116/144) installing libmakepkg-dropins                                                                                                     [-------------------------------------------------------------------------------------] 100%
+(117/144) installing pacman                                                                                                                 [-------------------------------------------------------------------------------------] 100%
+Optional dependencies for pacman
+    base-devel: required to use makepkg [pending]
+    perl-locale-gettext: translation support in makepkg-template
+(118/144) installing archlinux-keyring                                                                                                      [-------------------------------------------------------------------------------------] 100%
+==> Appending keys from archlinux.gpg...
+==> Updating trust database...
+gpg: next trustdb check due at 2026-10-21
+(119/144) installing m4                                                                                                                     [-------------------------------------------------------------------------------------] 100%
+(120/144) installing diffutils                                                                                                              [-------------------------------------------------------------------------------------] 100%
+(121/144) installing db5.3                                                                                                                  [-------------------------------------------------------------------------------------] 100%
+(122/144) installing perl                                                                                                                   [-------------------------------------------------------------------------------------] 100%
+(123/144) installing autoconf                                                                                                               [-------------------------------------------------------------------------------------] 100%
+(124/144) installing automake                                                                                                               [-------------------------------------------------------------------------------------] 100%
+(125/144) installing bison                                                                                                                  [-------------------------------------------------------------------------------------] 100%
+(126/144) installing xxhash                                                                                                                 [-------------------------------------------------------------------------------------] 100%
+(127/144) installing debugedit                                                                                                              [-------------------------------------------------------------------------------------] 100%
+(128/144) installing fakeroot                                                                                                               [-------------------------------------------------------------------------------------] 100%
+(129/144) installing flex                                                                                                                   [-------------------------------------------------------------------------------------] 100%
+(130/144) installing libisl                                                                                                                 [-------------------------------------------------------------------------------------] 100%
+(131/144) installing libmpc                                                                                                                 [-------------------------------------------------------------------------------------] 100%
+(132/144) installing gcc                                                                                                                    [-------------------------------------------------------------------------------------] 100%
+Optional dependencies for gcc
+    lib32-gcc-libs: for generating code for 32-bit ABI
+(133/144) installing groff                                                                                                                  [-------------------------------------------------------------------------------------] 100%
+Optional dependencies for groff
+    netpbm: for use together with man -H command interaction in browsers
+    psutils: for use together with man -H command interaction in browsers
+    libxaw: for gxditview
+    perl-file-homedir: for use with glilypond
+(134/144) installing tar                                                                                                                    [-------------------------------------------------------------------------------------] 100%
+(135/144) installing libtool                                                                                                                [-------------------------------------------------------------------------------------] 100%
+(136/144) installing gc                                                                                                                     [-------------------------------------------------------------------------------------] 100%
+(137/144) installing guile                                                                                                                  [-------------------------------------------------------------------------------------] 100%
+(138/144) installing make                                                                                                                   [-------------------------------------------------------------------------------------] 100%
+(139/144) installing patch                                                                                                                  [-------------------------------------------------------------------------------------] 100%
+Optional dependencies for patch
+    ed: for patch -e functionality
+(140/144) installing pkgconf                                                                                                                [-------------------------------------------------------------------------------------] 100%
+(141/144) installing sudo                                                                                                                   [-------------------------------------------------------------------------------------] 100%
+(142/144) installing texinfo                                                                                                                [-------------------------------------------------------------------------------------] 100%
+Optional dependencies for texinfo
+    perl-archive-zip: EPUB file output via texi2any
+(143/144) installing which                                                                                                                  [-------------------------------------------------------------------------------------] 100%
+(144/144) installing base-devel                                                                                                             [-------------------------------------------------------------------------------------] 100%
+:: Running post-transaction hooks...
+( 1/14) Creating system user accounts...
+Creating group 'alpm' with GID 970.
+Creating user 'alpm' (Arch Linux Package Management) with UID 970 and GID 970.
+( 2/14) Creating temporary files...
+( 3/14) Updating journal message catalog...
+( 4/14) Updating udev hardware database...
+( 5/14) Applying kernel sysctl settings...
+  Skipped: Running in chroot.
+( 6/14) Reloading system manager configuration...
+  Skipped: Running in chroot.
+( 7/14) Reloading user manager configuration...
+  Skipped: Running in chroot.
+( 8/14) Reloading device manager configuration...
+  Skipped: Running in chroot.
+( 9/14) Arming ConditionNeedsUpdate...
+(10/14) Rebuilding certificate stores...
+(11/14) Updating linux initcpios...
+call to execv failed (No such file or directory)
+error: command failed to execute correctly
+(12/14) Reloading system bus configuration...
+  Skipped: Running in chroot.
+(13/14) Checking for old perl modules...
+perl: warning: Setting locale failed.
+perl: warning: Please check that your locale settings:
+        LANGUAGE = "",
+        LC_ALL = (unset),
+        LC_CTYPE = (unset),
+        LC_NUMERIC = "tr_TR.UTF-8",
+        LC_COLLATE = (unset),
+        LC_TIME = "tr_TR.UTF-8",
+        LC_MESSAGES = (unset),
+        LC_MONETARY = "tr_TR.UTF-8",
+        LC_ADDRESS = "tr_TR.UTF-8",
+        LC_IDENTIFICATION = "tr_TR.UTF-8",
+        LC_MEASUREMENT = "tr_TR.UTF-8",
+        LC_PAPER = "tr_TR.UTF-8",
+        LC_TELEPHONE = "tr_TR.UTF-8",
+        LC_NAME = "tr_TR.UTF-8",
+        LANG = "C.UTF-8"
+    are supported and installed on your system.
+perl: warning: Falling back to a fallback locale ("C.UTF-8").
+(14/14) Updating the info directory file...
+Generating locales...
+  en_US.UTF-8... done
+  de_DE.UTF-8... done
+Generation complete.
+
+~/İndirilenler/push_swap 29s
+❯ 

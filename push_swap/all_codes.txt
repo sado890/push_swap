@@ -1,0 +1,1594 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   adaptive.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: muarici <muarici@student.42kocaeli.com.tr> +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/04/27 01:23:43 by muarici           #+#    #+#             */
+/*   Updated: 2026/04/27 15:33:57 by muarici          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "push_swap.h"
+
+static void	run_fixed_strategy(t_node **a, t_node **b, t_strategy strat,
+		t_info *bench)
+{
+	if (strat == LOW_DISORDER)
+	{
+		bench->notation = "O(n^2)";
+		simple_sort(a, b, bench);
+		return ;
+	}
+	if (strat == MEDIUM_DISORDER)
+	{
+		bench->notation = "O(n sqrt n)";
+		medium_sort(a, b, bench);
+		return ;
+	}
+	bench->notation = "O(n log n)";
+	complex_sort(a, b, bench);
+}
+
+void	run_strategy(t_node **a, t_node **b, t_strategy strat, t_info *bench)
+{
+	if (bench->disorder == 0.0f)
+		return ;
+	if (strat == ADAPTIVE)
+		execute_adaptive_sort(a, b, bench);
+	else if (strat == LOW_DISORDER || strat == MEDIUM_DISORDER
+		|| strat == HIGH_DISORDER)
+		run_fixed_strategy(a, b, strat, bench);
+	else
+		write(2, "Error\n", 6);
+}
+
+void	execute_adaptive_sort(t_node **a, t_node **b, t_info *bench)
+{
+	float		disorder;
+	t_strategy	strat;
+
+	set_current_and_target_idx(*a);
+	disorder = compute_disorder(*a);
+	if (disorder < 0.2f)
+		strat = LOW_DISORDER;
+	else if (disorder >= 0.2f && disorder <= 0.5f)
+		strat = MEDIUM_DISORDER;
+	else
+		strat = HIGH_DISORDER;
+	run_strategy(a, b, strat, bench);
+}
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   complex.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: muarici <muarici@student.42kocaeli.com.tr> +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/04/24 00:12:45 by muarici           #+#    #+#             */
+/*   Updated: 2026/04/27 19:52:29 by muarici          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "push_swap.h"
+
+static void	push_non_lis(t_node **a, t_node **b, t_info *bench, int size)
+{
+	int	i;
+
+	mark_lis(*a, size);
+	i = 0;
+	while (i < size)
+	{
+		if ((*a)->curr_idx == 0)
+		{
+			pb(b, a, 1, bench);
+			if (stack_len(*b) > 1 && (*b)->target_idx < size / 2)
+				rb(b, 1, bench);
+		}
+		else
+			ra(a, 1, bench);
+		i++;
+	}
+}
+
+void	complex_sort(t_node **a, t_node **b, t_info *bench)
+{
+	int	size;
+
+	set_current_and_target_idx(*a);
+	size = (int)stack_len(*a);
+	if (handle_small_size(a, b, size, bench) != -1)
+		return ;
+	push_non_lis(a, b, bench, size);
+	while (*b)
+		push_back_cheapest(a, b, bench);
+	final_align(a, bench);
+}
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   complex_lis.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: muarici <muarici@student.42kocaeli.com.tr> +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/04/28 00:00:00 by muarici           #+#    #+#             */
+/*   Updated: 2026/04/28 00:00:00 by muarici          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "push_swap.h"
+
+static void	init_lis_arrays(t_node *a, int *arr, int *lis, int *parent)
+{
+	int	i;
+
+	i = 0;
+	while (a)
+	{
+		arr[i] = a->target_idx;
+		lis[i] = 1;
+		parent[i] = -1;
+		a->curr_idx = 0;
+		a = a->next;
+		i++;
+	}
+}
+
+static void	update_lis_at(int i, int *arr, int *lis, int *parent)
+{
+	int	j;
+
+	j = 0;
+	while (j < i)
+	{
+		if (arr[i] > arr[j] && lis[i] < lis[j] + 1)
+		{
+			lis[i] = lis[j] + 1;
+			parent[i] = j;
+		}
+		j++;
+	}
+}
+
+static int	calc_lis(int *arr, int *lis, int *parent, int size)
+{
+	int	i;
+	int	max;
+	int	best;
+
+	max = 1;
+	best = 0;
+	i = 1;
+	while (i < size)
+	{
+		update_lis_at(i, arr, lis, parent);
+		if (lis[i] > max)
+		{
+			max = lis[i];
+			best = i;
+		}
+		i++;
+	}
+	return (best);
+}
+
+static void	mark_lis_nodes(t_node *a, int *parent, int curr)
+{
+	t_node	*tmp;
+	int		j;
+
+	while (curr != -1)
+	{
+		tmp = a;
+		j = 0;
+		while (j < curr)
+		{
+			tmp = tmp->next;
+			j++;
+		}
+		tmp->curr_idx = 1;
+		curr = parent[curr];
+	}
+}
+
+void	mark_lis(t_node *a, int size)
+{
+	int	*arr;
+	int	*lis;
+	int	*parent;
+	int	curr;
+
+	arr = malloc(sizeof(int) * size);
+	lis = malloc(sizeof(int) * size);
+	parent = malloc(sizeof(int) * size);
+	if (!arr || !lis || !parent)
+	{
+		free(arr);
+		free(lis);
+		free(parent);
+		return ;
+	}
+	init_lis_arrays(a, arr, lis, parent);
+	curr = calc_lis(arr, lis, parent, size);
+	mark_lis_nodes(a, parent, curr);
+	free(arr);
+	free(lis);
+	free(parent);
+}
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   disorder.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: muarici <muarici@student.42kocaeli.com.tr> +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/04/22 03:14:55 by muarici           #+#    #+#             */
+/*   Updated: 2026/04/27 16:53:17 by muarici          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "push_swap.h"
+
+static float	count_inversions(t_node *node)
+{
+	t_node	*temp;
+	float	counter;
+
+	temp = node->next;
+	counter = 0;
+	while (temp)
+	{
+		if (node->value > temp->value)
+		{
+			counter++;
+		}
+		temp = temp->next;
+	}
+	return (counter);
+}
+
+float	compute_disorder(t_node *a)
+{
+	float	mistakes;
+	size_t	len;
+	float	total_pairs;
+	t_node	*temp;
+
+	len = 0;
+	total_pairs = 0;
+	temp = a;
+	mistakes = 0;
+	while (temp)
+	{
+		mistakes += count_inversions(temp);
+		temp = temp->next;
+	}
+	len = stack_len(a);
+	if (len <= 1)
+		return (0.0f);
+	total_pairs = len * (len - 1) / 2;
+	return (mistakes / total_pairs);
+}
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   hard_code.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: muarici <muarici@student.42kocaeli.com.tr> +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/04/24 03:03:40 by muarici           #+#    #+#             */
+/*   Updated: 2026/04/27 19:54:59 by muarici          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "push_swap.h"
+
+int	handle_small_size(t_node **a, t_node **b, int size, t_info *bench)
+{
+	if (size == 5)
+		sort_5(a, b, bench);
+	else if (size == 4)
+		sort_4(a, b, bench);
+	else if (size == 3)
+		sort_3(a, bench);
+	else if (size == 2)
+		sort_2(a, bench);
+	else
+		return (-1);
+	return (0);
+}
+
+t_node	*sort_2(t_node **a, t_info *bench)
+{
+	if ((*a)->target_idx > (*a)->next->target_idx)
+		sa(a, 1, bench);
+	return (*a);
+}
+
+t_node	*sort_3(t_node **a, t_info *bench)
+{
+	set_current_and_target_idx(*a);
+	if ((*a)->target_idx == 0 && (*a)->next->target_idx == 2)
+	{
+		sa(a, 1, bench);
+		ra(a, 1, bench);
+	}
+	else if ((*a)->target_idx == 1 && (*a)->next->target_idx == 0)
+		sa(a, 1, bench);
+	else if ((*a)->target_idx == 1 && (*a)->next->target_idx == 2)
+		rra(a, 1, bench);
+	else if ((*a)->target_idx == 2 && (*a)->next->target_idx == 0)
+		ra(a, 1, bench);
+	else if ((*a)->target_idx == 2 && (*a)->next->target_idx == 1)
+	{
+		sa(a, 1, bench);
+		rra(a, 1, bench);
+	}
+	set_current_and_target_idx(*a);
+	return (*a);
+}
+
+t_node	*sort_4(t_node **a, t_node **b, t_info *bench)
+{
+	while ((*a)->target_idx != 0)
+		ra(a, 1, bench);
+	pb(b, a, 1, bench);
+	sort_3(a, bench);
+	pa(a, b, 1, bench);
+	set_current_and_target_idx(*a);
+	return (*a);
+}
+
+t_node	*sort_5(t_node **a, t_node **b, t_info *bench)
+{
+	int	len;
+
+	len = 5;
+	while ((*a)->target_idx != 0)
+	{
+		if (get_target_pos(*a, 0) > len / 2)
+			rra(a, 1, bench);
+		else
+			ra(a, 1, bench);
+	}
+	pb(b, a, 1, bench);
+	set_current_and_target_idx(*a);
+	sort_4(a, b, bench);
+	pa(a, b, 1, bench);
+	set_current_and_target_idx(*a);
+	return (*a);
+}
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   index_calc.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: muarici <muarici@student.42kocaeli.com.tr> +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/04/22 04:41:59 by muarici           #+#    #+#             */
+/*   Updated: 2026/04/27 15:38:59 by muarici          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "push_swap.h"
+
+void	set_current_and_target_idx(t_node *stack)
+{
+	set_current_indices(stack);
+	set_target_indices(stack);
+}
+
+void	set_current_indices(t_node *stack)
+{
+	int	index;
+
+	index = 0;
+	while (stack)
+	{
+		stack->curr_idx = index++;
+		stack = stack->next;
+	}
+}
+
+void	set_target_indices(t_node *stack)
+{
+	t_node	*temp;
+	t_node	*current;
+	int		count;
+
+	current = stack;
+	while (current)
+	{
+		count = 0;
+		temp = stack;
+		while (temp)
+		{
+			if (temp->value < current->value)
+				count++;
+			temp = temp->next;
+		}
+		current->target_idx = count;
+		current = current->next;
+	}
+}
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   init_stack.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: muarici <muarici@student.42kocaeli.com.tr> +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/04/16 18:10:00 by muarici           #+#    #+#             */
+/*   Updated: 2026/04/27 19:48:33 by muarici          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "push_swap.h"
+
+int	parse_and_fill_all(t_node **a, int argc, char **argv, int i)
+{
+	char	**split;
+	int		res;
+
+	while (i < argc)
+	{
+		split = ft_split(argv[i]);
+		if (!split)
+			return (-1);
+		if (!split[0])
+		{
+			free_split(split);
+			return (-1);
+		}
+		res = fill_stack(a, split);
+		free_split(split);
+		if (res == -1)
+			return (-1);
+		i++;
+	}
+	return (0);
+}
+
+int	fill_stack(t_node **a, char **split)
+{
+	int	i;
+	int	val;
+	int	err;
+
+	i = 0;
+	while (split[i])
+	{
+		err = 0;
+		val = ft_atoi_check(split[i], &err);
+		if (err || is_duplicate(*a, val))
+			return (-1);
+		add_back(a, new_node(val));
+		i++;
+	}
+	return (0);
+}
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   io_ops.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: muarici <muarici@student.42kocaeli.com.tr> +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/04/16 18:10:00 by muarici           #+#    #+#             */
+/*   Updated: 2026/04/27 15:39:12 by muarici          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "push_swap.h"
+#include <unistd.h>
+
+void	print_stack(char *name, t_node *stack)
+{
+	printf("%s:\n", name);
+	while (stack)
+	{
+		printf("Value: %d | Curr: %d | Target: %d\n", stack->value,
+			stack->curr_idx, stack->target_idx);
+		stack = stack->next;
+	}
+	printf("\n");
+}
+
+static void	print_strategy(t_info *bench)
+{
+	if (bench->strategy == LOW_DISORDER)
+		printf("[bench] strategy:   Simple / O(n^2)\n");
+	else if (bench->strategy == MEDIUM_DISORDER)
+		printf("[bench] strategy:   Medium / O(n sqrt n)\n");
+	else if (bench->strategy == HIGH_DISORDER)
+		printf("[bench] strategy:   Complex / O(n log n)\n");
+	else if (bench->notation == NULL)
+		printf("[bench] strategy:   Adaptive / O(1)\n");
+	else
+		printf("[bench] strategy:   Adaptive / %s\n", bench->notation);
+}
+
+void	print_bench(t_info *bench)
+{
+	int	total;
+
+	total = bench->sa + bench->sb + bench->ss + bench->pa + bench->pb
+		+ bench->ra + bench->rb + bench->rr + bench->rra + bench->rrb
+		+ bench->rrr;
+	printf("[bench] disorder:   %d%%\n", (int)(bench->disorder * 100));
+	print_strategy(bench);
+	printf("[bench] total_ops:  %d\n", total);
+	printf("[bench] sa: %d  sb: %d  ss: %d  pa: %d  pb: %d\n", bench->sa,
+		bench->sb, bench->ss, bench->pa, bench->pb);
+	printf("[bench] ra: %d  rb: %d  rr: %d  rra: %d  rrb: %d  rrr: %d\n",
+		bench->ra, bench->rb, bench->rr, bench->rra,
+		bench->rrb, bench->rrr);
+}
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: muarici <muarici@student.42kocaeli.com.tr> +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/04/01 15:46:40 by muarici           #+#    #+#             */
+/*   Updated: 2026/04/27 19:45:18 by muarici          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "push_swap.h"
+
+static char	parse_flag(char *arg)
+{
+	if (arg[0] != '-' || arg[1] != '-')
+		return ('N');
+	if (ft_strncmp(arg, "--bench", 7) == 0)
+		return ('B');
+	else if (ft_strncmp(arg, "--simple", 8) == 0)
+		return ('S');
+	else if (ft_strncmp(arg, "--medium", 8) == 0)
+		return ('M');
+	else if (ft_strncmp(arg, "--complex", 9) == 0)
+		return ('C');
+	else if (ft_strncmp(arg, "--adaptive", 10) == 0)
+		return ('A');
+	return ('E');
+}
+
+int	cleanup_and_exit(t_node **a, t_node **b, int status)
+{
+	if (a && *a)
+		free_stack(a);
+	if (b && *b)
+		free_stack(b);
+	if (status == 1)
+		write(2, "Error\n", 6);
+	return (status);
+}
+
+static void	init_main_vars(char **argv, char *f, int *i, t_info *bench)
+{
+	*f = parse_flag(argv[1]);
+	*i = 1;
+	if (*f == 'B' || (*f != 'N' && *f != 'E'))
+		*i = 2;
+	ft_memset(bench, 0, sizeof(t_info));
+	if (*f == 'B')
+		bench->bench_mode = 1;
+}
+
+static void	set_strategy(char format, t_info *bench)
+{
+	if (format == 'A' || format == 'N' || format == 'B')
+		bench->strategy = ADAPTIVE;
+	else if (format == 'S')
+		bench->strategy = LOW_DISORDER;
+	else if (format == 'M')
+		bench->strategy = MEDIUM_DISORDER;
+	else
+		bench->strategy = HIGH_DISORDER;
+}
+
+int	main(int argc, char **argv)
+{
+	t_node		*a;
+	t_node		*b_stack;
+	t_info		bench;
+	char		f;
+	int			i;
+
+	if (argc < 2)
+		return (0);
+	a = NULL;
+	b_stack = NULL;
+	init_main_vars(argv, &f, &i, &bench);
+	if (f == 'E' || parse_and_fill_all(&a, argc, argv, i) == -1)
+		return (cleanup_and_exit(&a, &b_stack, 1));
+	set_current_and_target_idx(a);
+	bench.disorder = compute_disorder(a);
+	set_strategy(f, &bench);
+	run_strategy(&a, &b_stack, bench.strategy, &bench);
+	if (bench.bench_mode)
+		print_bench(&bench);
+	return (cleanup_and_exit(&a, &b_stack, 0));
+}
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   medium.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: muarici <muarici@student.42kocaeli.com.tr> +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/04/27 03:45:14 by muarici           #+#    #+#             */
+/*   Updated: 2026/04/27 20:06:25 by muarici          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "push_swap.h"
+
+void	final_align(t_node **a, t_info *bench)
+{
+	int		min_idx;
+	t_node	*tmp;
+
+	min_idx = 0;
+	set_current_and_target_idx(*a);
+	tmp = *a;
+	while (tmp && tmp->target_idx != 0)
+	{
+		min_idx++;
+		tmp = tmp->next;
+	}
+	if (min_idx <= (int)stack_len(*a) / 2)
+	{
+		while (min_idx--)
+			ra(a, 1, bench);
+	}
+	else
+	{
+		while (min_idx++ < (int)stack_len(*a))
+			rra(a, 1, bench);
+	}
+}
+
+void	medium_sort(t_node **a, t_node **b, t_info *bench)
+{
+	int	len;
+
+	len = (int)stack_len(*a);
+	if (handle_small_size(a, b, len, bench) != -1)
+		return ;
+	push_chunks(a, b, bench);
+	while (*b)
+		push_back_cheapest(a, b, bench);
+	final_align(a, bench);
+}
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   medium_push.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: muarici <muarici@student.42kocaeli.com.tr> +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/04/28 00:00:00 by muarici           #+#    #+#             */
+/*   Updated: 2026/04/28 00:00:00 by muarici          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "push_swap.h"
+
+static void	update_best_move(t_node **a, t_node **b, t_node *tmp, int *move)
+{
+	int	curr[2];
+	int	cost;
+
+	curr[0] = get_cost(stack_len(*a), get_target_pos(*a, tmp->value));
+	curr[1] = get_cost(stack_len(*b), tmp->curr_idx);
+	cost = abs(curr[0]) + abs(curr[1]);
+	if (cost < move[2])
+	{
+		move[2] = cost;
+		move[0] = curr[0];
+		move[1] = curr[1];
+	}
+}
+
+void	push_back_cheapest(t_node **a, t_node **b, t_info *bench)
+{
+	t_node	*tmp;
+	int		move[3];
+
+	move[2] = 2147483647;
+	set_current_and_target_idx(*a);
+	set_current_indices(*b);
+	tmp = *b;
+	while (tmp)
+	{
+		update_best_move(a, b, tmp, move);
+		tmp = tmp->next;
+	}
+	do_rotate(a, b, move, bench);
+	pa(a, b, 1, bench);
+}
+
+static void	push_chunk_node(t_node **a, t_node **b, int *pushed,
+		t_info *bench)
+{
+	pb(b, a, 1, bench);
+	if ((*b)->target_idx < *pushed / 2)
+		rb(b, 1, bench);
+	(*pushed)++;
+}
+
+void	push_chunks(t_node **a, t_node **b, t_info *bench)
+{
+	int	size;
+	int	chunk;
+	int	pushed;
+
+	size = (int)stack_len(*a);
+	set_current_and_target_idx(*a);
+	chunk = size / 11;
+	if (size <= 100)
+		chunk = size / 6;
+	pushed = 0;
+	while (*a)
+	{
+		if ((*a)->target_idx <= pushed)
+			push_chunk_node(a, b, &pushed, bench);
+		else if ((*a)->target_idx <= pushed + chunk)
+		{
+			pb(b, a, 1, bench);
+			pushed++;
+		}
+		else
+			ra(a, 1, bench);
+	}
+}
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   medium_utils.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: muarici <muarici@student.42kocaeli.com.tr> +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/04/27 17:17:44 by muarici           #+#    #+#             */
+/*   Updated: 2026/04/27 17:24:55 by muarici          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "push_swap.h"
+
+int	get_cost(int size, int idx)
+{
+	if (idx <= size / 2)
+		return (idx);
+	return (idx - size);
+}
+
+static int	find_min_pos(t_node *a)
+{
+	int		min_val;
+	int		min_idx;
+	t_node	*tmp;
+
+	min_val = 2147483647;
+	min_idx = 0;
+	tmp = a;
+	while (tmp)
+	{
+		if (tmp->value < min_val)
+		{
+			min_val = tmp->value;
+			min_idx = tmp->curr_idx;
+		}
+		tmp = tmp->next;
+	}
+	return (min_idx);
+}
+
+int	get_target_pos(t_node *a, int b_val)
+{
+	t_node	*tmp;
+	int		best_idx;
+	int		best_val;
+
+	tmp = a;
+	best_idx = -1;
+	best_val = 2147483647;
+	while (tmp)
+	{
+		if (tmp->value > b_val && tmp->value < best_val)
+		{
+			best_val = tmp->value;
+			best_idx = tmp->curr_idx;
+		}
+		tmp = tmp->next;
+	}
+	if (best_idx != -1)
+		return (best_idx);
+	return (find_min_pos(a));
+}
+
+static void	rotate_both(t_node **a, t_node **b, int *cost, t_info *bench)
+{
+	while (cost[0] > 0 && cost[1] > 0)
+	{
+		rr(a, b, bench);
+		cost[0]--;
+		cost[1]--;
+	}
+	while (cost[0] < 0 && cost[1] < 0)
+	{
+		rrr(a, b, bench);
+		cost[0]++;
+		cost[1]++;
+	}
+}
+
+void	do_rotate(t_node **a, t_node **b, int *moves, t_info *bench)
+{
+	int	cost[2];
+
+	cost[0] = moves[0];
+	cost[1] = moves[1];
+	rotate_both(a, b, cost, bench);
+	while (cost[0] > 0 && cost[0]--)
+		ra(a, 1, bench);
+	while (cost[0] < 0 && cost[0]++)
+		rra(a, 1, bench);
+	while (cost[1] > 0 && cost[1]--)
+		rb(b, 1, bench);
+	while (cost[1] < 0 && cost[1]++)
+		rrb(b, 1, bench);
+}
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   memory_ops.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: muarici <muarici@student.42kocaeli.com.tr> +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/04/27 11:18:33 by muarici           #+#    #+#             */
+/*   Updated: 2026/04/27 15:39:52 by muarici          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "push_swap.h"
+
+void	*ft_memset(void *s, int c, size_t n)
+{
+	unsigned char	*ptr;
+
+	ptr = (unsigned char *)s;
+	while (n--)
+		*ptr++ = (unsigned char)c;
+	return (s);
+}
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   node_ops.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: muarici <muarici@student.42kocaeli.com.tr> +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/04/16 18:00:00 by muarici           #+#    #+#             */
+/*   Updated: 2026/04/24 00:05:12 by muarici          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "push_swap.h"
+
+t_node	*new_node(int value)
+{
+	t_node	*node;
+
+	node = malloc(sizeof(t_node));
+	if (!node)
+		return (NULL);
+	node->value = value;
+	node->curr_idx = -1;
+	node->target_idx = -1;
+	node->next = NULL;
+	return (node);
+}
+
+void	add_back(t_node **node, t_node *new_node)
+{
+	t_node	*last;
+
+	if (!node || !new_node)
+		return ;
+	if (!*node)
+	{
+		*node = new_node;
+		return ;
+	}
+	last = *node;
+	while (last->next)
+		last = last->next;
+	last->next = new_node;
+}
+
+size_t	stack_len(t_node *node)
+{
+	size_t	len;
+
+	len = 0;
+	while (node)
+	{
+		len++;
+		node = node->next;
+	}
+	return (len);
+}
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parsing.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: muarici <muarici@student.42kocaeli.com.tr> +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/04/16 18:00:00 by muarici           #+#    #+#             */
+/*   Updated: 2026/04/16 18:13:03 by muarici          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "push_swap.h"
+
+int	is_clear(char *str)
+{
+	int	i;
+
+	i = 0;
+	if (!str || !str[0])
+		return (0);
+	if (str[i] == '-' || str[i] == '+')
+		i++;
+	if (!str[i])
+		return (0);
+	while (str[i])
+	{
+		if (!(str[i] >= '0' && str[i] <= '9'))
+			return (0);
+		i++;
+	}
+	return (1);
+}
+
+int	is_duplicate(t_node *stack, int val)
+{
+	while (stack)
+	{
+		if (stack->value == val)
+			return (1);
+		stack = stack->next;
+	}
+	return (0);
+}
+
+static int	set_error(int *error)
+{
+	*error = 1;
+	return (0);
+}
+
+static int	get_sign(char *str, int *i)
+{
+	if (str[*i] == '-' || str[*i] == '+')
+	{
+		if (str[(*i)++] == '-')
+			return (-1);
+	}
+	return (1);
+}
+
+int	ft_atoi_check(char *str, int *error)
+{
+	long	res;
+	int		sign;
+	int		i;
+
+	res = 0;
+	sign = 1;
+	i = 0;
+	if (!is_clear(str))
+		return (set_error(error));
+	while (str[i] == ' ' || (str[i] >= 9 && str[i] <= 13))
+		i++;
+	sign = get_sign(str, &i);
+	while (str[i] >= '0' && str[i] <= '9')
+	{
+		res = res * 10 + (str[i++] - '0');
+		if ((res * sign) > 2147483647 || (res * sign) < -2147483648)
+			return (set_error(error));
+	}
+	return ((int)(res * sign));
+}
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   rotate_ops.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: muarici <muarici@student.42kocaeli.com.tr> +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/04/16 18:00:00 by muarici           #+#    #+#             */
+/*   Updated: 2026/04/27 15:42:18 by muarici          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "push_swap.h"
+
+void	ra(t_node **a, int print, t_info *bench)
+{
+	t_node	*first;
+	t_node	*last;
+
+	if (!*a || !(*a)->next)
+		return ;
+	first = *a;
+	last = *a;
+	while (last->next)
+		last = last->next;
+	*a = first->next;
+	first->next = NULL;
+	last->next = first;
+	if (bench)
+		bench->ra++;
+	if (print && !(bench && bench->bench_mode))
+		write(1, "ra\n", 3);
+}
+
+void	rb(t_node **b, int print, t_info *bench)
+{
+	t_node	*first;
+	t_node	*last;
+
+	if (!*b || !(*b)->next)
+		return ;
+	first = *b;
+	last = *b;
+	while (last->next)
+		last = last->next;
+	*b = first->next;
+	first->next = NULL;
+	last->next = first;
+	if (bench)
+		bench->rb++;
+	if (print && !(bench && bench->bench_mode))
+		write(1, "rb\n", 3);
+}
+
+void	rra(t_node **a, int print, t_info *bench)
+{
+	t_node	*last;
+	t_node	*prev;
+
+	if (!*a || !(*a)->next)
+		return ;
+	prev = NULL;
+	last = *a;
+	while (last->next)
+	{
+		prev = last;
+		last = last->next;
+	}
+	prev->next = NULL;
+	last->next = *a;
+	*a = last;
+	if (bench)
+		bench->rra++;
+	if (print && !(bench && bench->bench_mode))
+		write(1, "rra\n", 4);
+}
+
+void	rrb(t_node **b, int print, t_info *bench)
+{
+	t_node	*last;
+	t_node	*prev;
+
+	if (!*b || !(*b)->next)
+		return ;
+	prev = NULL;
+	last = *b;
+	while (last->next)
+	{
+		prev = last;
+		last = last->next;
+	}
+	prev->next = NULL;
+	last->next = *b;
+	*b = last;
+	if (bench)
+		bench->rrb++;
+	if (print && !(bench && bench->bench_mode))
+		write(1, "rrb\n", 4);
+}
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   simple.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: muarici <muarici@student.42kocaeli.com.tr> +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/04/26 18:21:01 by muarici           #+#    #+#             */
+/*   Updated: 2026/04/27 15:41:43 by muarici          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "push_swap.h"
+
+static int	get_min_idx(t_node *a)
+{
+	t_node	*temp;
+
+	temp = a;
+	while (temp)
+	{
+		if (temp->target_idx == 0)
+			return (temp->curr_idx);
+		temp = temp->next;
+	}
+	return (0);
+}
+
+static void	rotate_to_top(t_node **a, int min_idx, int size, t_info *bench)
+{
+	if (min_idx <= size / 2)
+	{
+		while (min_idx-- > 0)
+			ra(a, 1, bench);
+	}
+	else
+	{
+		while (min_idx++ < size)
+			rra(a, 1, bench);
+	}
+}
+
+void	simple_sort(t_node **a, t_node **b, t_info *bench)
+{
+	int		size;
+	int		min_idx;
+
+	size = (int)stack_len(*a);
+	while ((int)stack_len(*a) > 3)
+	{
+		set_current_and_target_idx(*a);
+		size = (int)stack_len(*a);
+		min_idx = get_min_idx(*a);
+		rotate_to_top(a, min_idx, size, bench);
+		pb(b, a, 1, bench);
+	}
+	sort_3(a, bench);
+	while (*b)
+		pa(a, b, 1, bench);
+}
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   special_ops.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: muarici <muarici@student.42kocaeli.com.tr> +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/04/16 18:10:00 by muarici           #+#    #+#             */
+/*   Updated: 2026/04/27 15:41:31 by muarici          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "push_swap.h"
+
+void	rrr(t_node **a, t_node **b, t_info *bench)
+{
+	rra(a, 0, bench);
+	rrb(b, 0, bench);
+	if (bench)
+		bench->rrr++;
+	if (!(bench && bench->bench_mode))
+		write(1, "rrr\n", 4);
+}
+
+void	ss(t_node **a, t_node **b, t_info *bench)
+{
+	sa(a, 0, bench);
+	sb(b, 0, bench);
+	if (bench)
+		bench->ss++;
+	if (!(bench && bench->bench_mode))
+		write(1, "ss\n", 3);
+}
+
+void	rr(t_node **a, t_node **b, t_info *bench)
+{
+	ra(a, 0, bench);
+	rb(b, 0, bench);
+	if (bench)
+		bench->rr++;
+	if (!(bench && bench->bench_mode))
+		write(1, "rr\n", 3);
+}
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   split_ops.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: muarici <muarici@student.42kocaeli.com.tr> +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/04/16 18:15:00 by muarici           #+#    #+#             */
+/*   Updated: 2026/04/16 18:12:58 by muarici          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "push_swap.h"
+
+static int	skip_spaces(char *str, int i)
+{
+	while (str[i] == ' ')
+		i++;
+	return (i);
+}
+
+static void	copy_word(char *str, char **res, int *i, int *k)
+{
+	int	j;
+	int	l;
+
+	j = *i;
+	while (str[j] && str[j] != ' ')
+		j++;
+	res[*k] = malloc(j - *i + 1);
+	l = 0;
+	while (*i < j)
+	{
+		res[*k][l] = str[*i];
+		l++;
+		(*i)++;
+	}
+	res[*k][l] = '\0';
+	(*k)++;
+}
+
+static void	fill_split(char *str, char **res)
+{
+	int	i;
+	int	k;
+
+	i = 0;
+	k = 0;
+	while (str[i])
+	{
+		i = skip_spaces(str, i);
+		if (str[i])
+			copy_word(str, res, &i, &k);
+	}
+	res[k] = NULL;
+}
+
+char	**ft_split(char *str)
+{
+	char	**res;
+
+	res = malloc(sizeof(char *) * (ft_strlen(str) + 1));
+	if (!res)
+		return (NULL);
+	fill_split(str, res);
+	return (res);
+}
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   stack_ops.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: muarici <muarici@student.42kocaeli.com.tr> +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/04/16 18:00:00 by muarici           #+#    #+#             */
+/*   Updated: 2026/04/27 15:41:03 by muarici          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "push_swap.h"
+
+void	sa(t_node **a, int print, t_info *bench)
+{
+	t_node	*tmp;
+
+	if (!*a || !(*a)->next)
+		return ;
+	tmp = (*a)->next;
+	(*a)->next = tmp->next;
+	tmp->next = *a;
+	*a = tmp;
+	if (bench)
+		bench->sa++;
+	if (print && !(bench && bench->bench_mode))
+		write(1, "sa\n", 3);
+}
+
+void	sb(t_node **b, int print, t_info *bench)
+{
+	t_node	*tmp;
+
+	if (!*b || !(*b)->next)
+		return ;
+	tmp = (*b)->next;
+	(*b)->next = tmp->next;
+	tmp->next = *b;
+	*b = tmp;
+	if (bench)
+		bench->sb++;
+	if (print && !(bench && bench->bench_mode))
+		write(1, "sb\n", 3);
+}
+
+void	pa(t_node **a, t_node **b, int print, t_info *bench)
+{
+	t_node	*tmp;
+
+	if (!*b)
+		return ;
+	tmp = *b;
+	*b = (*b)->next;
+	tmp->next = *a;
+	*a = tmp;
+	if (bench)
+		bench->pa++;
+	if (print && !(bench && bench->bench_mode))
+		write(1, "pa\n", 3);
+}
+
+void	pb(t_node **b, t_node **a, int print, t_info *bench)
+{
+	t_node	*tmp;
+
+	if (!*a)
+		return ;
+	tmp = *a;
+	*a = (*a)->next;
+	tmp->next = *b;
+	*b = tmp;
+	if (bench)
+		bench->pb++;
+	if (print && !(bench && bench->bench_mode))
+		write(1, "pb\n", 3);
+}
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   string_ops.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: muarici <muarici@student.42kocaeli.com.tr> +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/04/27 09:24:57 by muarici           #+#    #+#             */
+/*   Updated: 2026/04/27 15:40:11 by muarici          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include <stddef.h>
+
+int	ft_strncmp(const char *s1, const char *s2, size_t n)
+{
+	size_t	i;
+
+	i = 0;
+	while (i < n && (s1[i] || s2[i]))
+	{
+		if ((unsigned char)s1[i] != (unsigned char)s2[i])
+			return ((unsigned char)s1[i] - (unsigned char)s2[i]);
+		i++;
+	}
+	return (0);
+}
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   utils.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: muarici <muarici@student.42kocaeli.com.tr> +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/04/16 18:00:00 by muarici           #+#    #+#             */
+/*   Updated: 2026/04/16 17:47:40 by muarici          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "push_swap.h"
+
+int	ft_strlen(char *s)
+{
+	int	i;
+
+	i = 0;
+	while (s && s[i])
+		i++;
+	return (i);
+}
+
+void	free_stack(t_node **stack)
+{
+	t_node	*temp;
+
+	if (!stack || !*stack)
+		return ;
+	while (*stack)
+	{
+		temp = (*stack)->next;
+		free(*stack);
+		*stack = temp;
+	}
+}
+
+void	free_split(char **split)
+{
+	int	i;
+
+	i = 0;
+	if (!split)
+		return ;
+	while (split[i])
+		free(split[i++]);
+	free(split);
+}
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   push_swap.h                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: muarici <muarici@student.42kocaeli.com.tr> +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/04/16 18:00:00 by muarici           #+#    #+#             */
+/*   Updated: 2026/04/27 19:46:23 by muarici          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#ifndef PUSH_SWAP_H
+# define PUSH_SWAP_H
+
+# include <stdio.h>
+# include <stdlib.h>
+# include <unistd.h>
+
+typedef struct s_node
+{
+	int				value;
+	int				curr_idx;
+	int				target_idx;
+	struct s_node	*next;
+}					t_node;
+
+typedef enum e_strategy
+{
+	LOW_DISORDER,
+	MEDIUM_DISORDER,
+	HIGH_DISORDER,
+	ADAPTIVE
+}					t_strategy;
+
+typedef struct s_info
+{
+	int				bench_mode;
+	int				sa;
+	int				sb;
+	int				ss;
+	int				pa;
+	int				pb;
+	int				ra;
+	int				rb;
+	int				rr;
+	int				rra;
+	int				rrb;
+	int				rrr;
+	int				total;
+	float			disorder;
+	t_strategy		strategy;
+	char			*notation;
+}					t_info;
+
+void				*ft_memset(void *s, int c, size_t n);
+int					ft_strlen(char *s);
+void				free_stack(t_node **stack);
+void				free_split(char **split);
+
+int					cleanup_and_exit(t_node **a, t_node **b, int status);
+
+t_node				*new_node(int value);
+void				add_back(t_node **stack, t_node *new_node);
+size_t				stack_len(t_node *node);
+
+int					is_clear(char *str);
+int					is_duplicate(t_node *stack, int val);
+int					ft_atoi_check(char *str, int *error);
+char				**ft_split(char *str);
+int					fill_stack(t_node **a, char **split);
+
+void				set_current_indices(t_node *stack);
+void				set_target_indices(t_node *stack);
+void				set_current_and_target_idx(t_node *stack);
+
+void				sa(t_node **a, int print, t_info *bench);
+void				sb(t_node **b, int print, t_info *bench);
+void				ss(t_node **a, t_node **b, t_info *bench);
+
+void				pa(t_node **a, t_node **b, int print, t_info *bench);
+void				pb(t_node **b, t_node **a, int print, t_info *bench);
+
+void				ra(t_node **a, int print, t_info *bench);
+void				rb(t_node **b, int print, t_info *bench);
+void				rr(t_node **a, t_node **b, t_info *bench);
+
+void				rra(t_node **a, int print, t_info *bench);
+void				rrb(t_node **b, int print, t_info *bench);
+void				rrr(t_node **a, t_node **b, t_info *bench);
+
+t_node				*sort_2(t_node **a, t_info *bench);
+t_node				*sort_3(t_node **a, t_info *bench);
+t_node				*sort_4(t_node **a, t_node **b, t_info *bench);
+t_node				*sort_5(t_node **a, t_node **b, t_info *bench);
+void				simple_sort(t_node **a, t_node **b, t_info *bench);
+void				medium_sort(t_node **a, t_node **b, t_info *bench);
+void				complex_sort(t_node **a, t_node **b, t_info *bench);
+void				push_chunks(t_node **a, t_node **b, t_info *bench);
+void				push_back_cheapest(t_node **a, t_node **b,
+						t_info *bench);
+void				final_align(t_node **a, t_info *bench);
+void				mark_lis(t_node *a, int size);
+
+int					get_cost(int size, int idx);
+int					get_target_pos(t_node *a, int b_val);
+void				do_rotate(t_node **a, t_node **b, int *moves,
+						t_info *bench);
+
+int					handle_small_size(t_node **a, t_node **b, int size,
+						t_info *bench);
+
+float				compute_disorder(t_node *a);
+void				execute_adaptive_sort(t_node **a, t_node **b,
+						t_info *bench);
+void				run_strategy(t_node **a, t_node **b, t_strategy strat,
+						t_info *bench);
+
+int					parse_and_fill_all(t_node **a, int argc, char **argv,
+						int i);
+
+void				print_stack(char *name, t_node *stack);
+void				print_bench(t_info *bench);
+
+int					ft_strncmp(const char *s1, const char *s2, size_t n);
+
+#endif
+NAME = push_swap
+
+CC = cc
+
+CFLAGS = -Wall -Wextra -Werror
+
+RM = rm -f
+
+SRCS = main.c \
+       parsing.c init_stack.c node_ops.c stack_ops.c rotate_ops.c \
+	   special_ops.c \
+       utils.c memory_ops.c string_ops.c split_ops.c index_calc.c disorder.c \
+       adaptive.c simple.c medium.c medium_push.c complex.c complex_lis.c \
+	   hard_code.c \
+	   medium_utils.c \
+	   io_ops.c
+
+OBJS = $(SRCS:.c=.o)
+
+all: $(NAME)
+
+$(NAME): $(OBJS)
+	$(CC) $(CFLAGS) -o $(NAME) $(OBJS)
+
+%.o: %.c
+	$(CC) $(CFLAGS) -c $< -o $@
+
+clean:
+	$(RM) $(OBJS)
+
+fclean: clean
+	$(RM) $(NAME)
+
+re: fclean all
+
+.PHONY: all clean fclean re
